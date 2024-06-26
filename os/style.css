@@ -1,0 +1,109 @@
+/* // Dont use this operationg system without lisence
+// copyright 2024 Haseef Muhammer
+// Web Craft and Any Time Services
+// Library FLowwaypc
+// css library Haseef Swift language
+// Server Git Hub
+// This website already hosted on netlify inc
+*/
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courgette&family=Delicious+Handrawn&family=Noto+Kufi+Arabic:wght@100..900&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rubik+Scribble&family=Rubik:ital,wght@0,300..900;1,300..900&family=Shadows+Into+Light&family=Workbench&display=swap');
+body{
+    background-image: url("images/bg\ for\ fm.png");
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.icon{
+    width: 10em;
+}
+.brand{
+    font-family: "Rubik Scribble", system-ui;
+    font-weight: bolder;
+    font-style: normal;
+  
+}
+body {
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+    font-weight: 300;
+    font-size: 2.2rem;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #clock h1{
+      font-family: "Workbench", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: bolder;
+      font-size: 2em;
+      font-style: normal;
+      font-variation-settings:
+        "BLED" 0,
+        "SCAN" 0;
+  }
+  .button{
+    font-weight: bolder;
+  }
+  a{
+    text-decoration: none;
+  }
+
+  
+  /* Custom CSS for horizontal scrolling */
+.scrollable {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .page {
+    display: inline-block;
+    width: 100%; /* Set the width of each page to the viewport width */
+    height: 100%; /* Set the height of each page to the viewport height */
+  }
+  
+  /* Apps */
+
+.app-img{
+    border-radius: 10px;
+    width: 6em;
+}
+.app-txt{
+    font-weight: bolder;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+/* climate */
+.climate{
+    background-image: url("images/weather\ bg.png");
+    background-position: center;
+    background-attachment: scroll;
+    background-size: cover;
+    border-radius: 20px;
+    width: 600px;
+    /* height: 350px; */
+}
+
+#clock-2 h1{
+    font-family: "Workbench", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bolder;
+    font-size: 2em;
+    font-style: normal;
+    font-variation-settings:
+      "BLED" 0,
+      "SCAN" 0;
+}
+
+.icon2{
+    width: 5em;
+}
+.a{
+    text-decoration: none;
+}
+
+
+.hide{
+    visibility: hidden;
+}
