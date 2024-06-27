@@ -111,6 +111,10 @@ table{
     width: 100%;
     height: 100vh;
 }
+.iframe4{
+  width: 100%;
+  height: 100vh;
+}
 
 
 /* calc */
@@ -233,4 +237,8 @@ table{
 .load{
   width: 40em;
   height: 20em;
+}
+
+.setting-shut{
+  width: 5em;
 }
