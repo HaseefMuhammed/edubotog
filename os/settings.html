@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Flowway Mobile</title>
+    <title>EDU BOT</title>
     <link rel="stylesheet" href="style2.css">
-    <link rel="icon" href="images/icon  removed.png" type="image/logo">
+    <link rel="icon" href="images/icon.png" type="image/logo">
     <script src="https://kit.fontawesome.com/3945bc0b8d.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -35,19 +35,26 @@
         <tbody>
           <tr>
             <td class="bg-dark text-white">Shut down</td>
-            <td class="bg-dark text-white"><a href="https://haseefmuhammed.github.io/edubotog/"><img class="setting-shut" src="images/power btn.png" alt=""></a></td>
+            <td class="bg-dark text-white"><a href="https://edubotog.netlify.app/"><img class="setting-shut" src="images/power btn.png" alt=""></a></td>
           </tr>
           <tr>
             <td class="bg-dark text-white">Connect to the app</td>
-            <td class="bg-dark text-white"><a href="#">Connect</a></td>
+            <td class="bg-dark text-white" onclick="showDialog()">Connect</td>
           </tr>
+          <dialog id="dialog-connect" class="dialog-connect">
+            <h1>Scan the qr code on Edu Connect</h1>
+            <img src="images/ebConfig.png" alt="">
+            <h3>Or enter it manually</h3>
+            <p>eb.configadmin123</p>
+            <button class="btn btn-primary" onclick="dialogClose()">Close</button>
+          </dialog>
           <tr>
             <td class="bg-dark text-white">Operating system</td>
             <td class="bg-dark text-white">Edu Bot Os</td>
           </tr>
           <tr>
             <td class="bg-dark text-white">Version</td>
-            <td class="bg-dark text-white "><a class="text-decoration-none text-white" href="app-system-updater.html">1</a></td>
+            <td class="bg-dark text-white "><a class="text-decoration-none text-white" href="#">1</a></td>
           </tr>
           <tr>
             <td class="bg-dark text-white">Last update date</td>
@@ -109,6 +116,16 @@
     
 
     <script src="script.js"></script>
+    <script>
+      function showDialog(){
+    const dialog = document.getElementById("dialog-connect");
+    dialog.showModal();
+      }
+    function dialogClose(){
+    window.location.href = "settings.html";
+}
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

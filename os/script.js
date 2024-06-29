@@ -141,3 +141,5 @@ document.getElementById('scrollable').addEventListener('wheel', (e) => {
 // calculator
 
 console.log("script ideled");
+
+

@@ -242,3 +242,28 @@ table{
 .setting-shut{
   width: 5em;
 }
+
+
+/* Dialog */
+.dialog-connect h1{
+  font-size: 3em;
+  text-transform: uppercase;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+}
+.dialog-connect img{
+  width: 15em;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.dialog-connect h3,p{
+  text-align: center;
+}
+.dialog-connect button{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
