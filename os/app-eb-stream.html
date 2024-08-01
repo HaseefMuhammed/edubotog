@@ -9,19 +9,80 @@
     <script src="AgoraRTC_N-4.21.0.js"></script>
     <script src="https://kit.fontawesome.com/3945bc0b8d.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+      /* === removing default button style ===*/
+.button-se {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+/* button styling */
+.button-se {
+  --border-right: 6px;
+  --text-stroke-color: rgba(255,255,255,0.6);
+  --animation-color: #37FF8B;
+  --fs-size: 2em;
+  letter-spacing: 3px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "Arial";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+/* this is the text, when you hover on button */
+.hover-text-se {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+/* hover */
+.button-se:hover .hover-text-se {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+    </style>
 </head>
 <body class="bg-dark">
-    <!-- // Dont use this operationg system without lisence
-// copyright 2024 Haseef Muhammer
-// Web Craft and Any Time Services
-// Library FLowwaypc
-// css library Haseef Swift language
-// Server Git Hub
-// This website already hosted on netlify inc -->
+      <!-- All rights resieved from FLOWWAY PUBLICATIONS 
+  THIS IS UNDER LICENSE TO KNOW ABOUT LICENCE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO/CONTACT
+  IF YOU ARE MAKING COPY OF THE ORGINAL ONE YOU MIGHT RESIEVE COPYWRITE AND WE WILL MAKE A COMPLAINT ON COURT.
+
+  -----TO GET LICENSE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO-----------
+  
+  ------------
+
+  IF YOU WANT AN OPERATING SYSTEM PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO /OR/ HASEEF-WS.NETLIFY.APP
+
+  LICENSE NO :  HW-FL-MB-001-2024
+  ©2024
+
+
+  ----- Dont use this operationg system without lisence-----
+  copyright 2024 Haseef Muhammed
+  Web Craft and Any Time Services
+  Library FLowwaypc
+  css library: Haseef Swift language
+  Server Git Hub
+  This website already hosted on netlify inc
+  -->
 
 <header>
     <nav  class="fixed-top bg-dark">
-        <h4 class="text-white p-1 mx-4"><a id="tap" onclick="audio.play()" class="text-white tap" href="home.html"> <i class="fa-solid fa-arrow-left"></i></a> EB Files</h4>
+        <h4 class="text-white p-1 mx-4"><a id="tap" onclick="audio.play()" class="text-white tap" href="home.html"> <i class="fa-solid fa-arrow-left"></i></a> EB Stream</h4>
     </nav>
 </header>
 
@@ -31,16 +92,61 @@
     <div id="stream-controls">
       <h3 class="water-mark">EDU BOT AI</h3>
       <button id="leave-btn">Leave Stream</button>
-      <button id="mic-btn">Mic On</button>
+      <button id="mic-btn" class="mx-5">Mic On</button>
+
+      <button class="mx-5 vote-button" onclick="showDialog()">Inform teacher</button>
+
       <!-- <button id="camera-btn">Camera On</button> -->
     </div>
   </div>
 
-
-
-
+  <dialog id="dialog-connect">
+    <h1>Sent request to teacher</h1>
+    <form action="" id="submit-form">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <input type="text" name="Status" value="Students In Online" readonly >
+          </div>
+        </div>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <button class="button-se" type="submit" data-text="Awesome">
+              <span class="actual-text-se">&nbsp;Send&nbsp;</span>
+              <span aria-hidden="true" class="hover-text-se">&nbsp;Done&nbsp;</span>
+          </button>
+          </div>
+        </form>
+          <div class="col-md-6">
+            <button class="btn-danger p-3" onclick="dialogClose()">Cancel</button>
+          </div>
+        </div>
+      </div>
     
+  </dialog>
 
+
+  <script>
+    $("#submit-form").submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url:"https://script.google.com/macros/s/AKfycbxJ1vk348rGkdO4jEGPyHnKVmQp-NmvqDQ2ONufL1_EmTSoi9agw1sEcKWAyZIWZbqvYg/exec",
+            data:$("#submit-form").serialize(),
+            method:"post",
+            success:function (response){
+                //alert("Request is sended successfully !!")
+                console.log('Submitted Successfully')
+                //window.location.reload()
+                window.location.href="app-eb-stream.html"
+            },
+            error:function (err){
+                alert("Something Error")
+
+            }
+        })
+    })
+</script>
+  <script src="dialog-sent.js"></script>
     <script src="ebStream.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
