@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EB GENIE</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="icon" href="images/icon.png" type="image/logo">
+    <script src="https://kit.fontawesome.com/3945bc0b8d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="bootstrap.css">
+    <style>
+      /* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  /* background: linear-gradient(to right, #ff7e5f, #feb47b); */
+  background: linear-gradient(to right, #c300ff, #6bb3c7);
+  color: #fff;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#response {
+  margin-top: 20px;
+}
+
+#responseText {
+  font-size: 18px;
+  color: #fff;
+  white-space: pre-wrap; /* Maintain newlines in the response text */
+}
+dialog{
+  border-radius: 10px;
+  text-align: center;
+}
+
+    </style>
+</head>
+<body class="bg-dark">
+      <!-- All rights resieved from FLOWWAY PUBLICATIONS 
+  THIS IS UNDER LICENSE TO KNOW ABOUT LICENCE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO/CONTACT
+  IF YOU ARE MAKING COPY OF THE ORGINAL ONE YOU MIGHT RESIEVE COPYWRITE AND WE WILL MAKE A COMPLAINT ON COURT.
+
+  -----TO GET LICENSE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO-----------
+  
+  ------------
+
+  IF YOU WANT AN OPERATING SYSTEM PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO /OR/ HASEEF-WS.NETLIFY.APP
+
+  LICENSE NO :  HW-FL-MB-001-2024
+  ©2024
+
+
+  ----- Dont use this operationg system without lisence-----
+  copyright 2024 Haseef Muhammed
+  Web Craft and Any Time Services
+  Library FLowwaypc
+  css library: Haseef Swift language
+  Server Git Hub
+  This website already hosted on netlify inc
+  -->
+
+<header>
+    <nav  class="fixed-top bg-dark">
+        <h4 class="text-white p-1 mx-4"><a id="tap" onclick="audio.play()" class="text-white tap" href="home.html"> <i class="fa-solid fa-arrow-left"></i></a> EB ASSISTANT</h4>
+    </nav>
+</header>
+<div class="p-3"></div>
+<section class="mt-5">
+  <!-- Copy from voice ai by ats -->
+  <dialog>
+    <button autofocus>Close</button>
+    <p>Ask a question like "Hey teahcer something..."</p>
+  </dialog>
+
+<div class="container">
+    <iframe style="border: none;" src="https://lottie.host/embed/3b36e97c-7786-4244-8209-adc49e8cd72a/g91OPodIOA.json"></iframe>
+    <h1>EDU BOT ASSISTANT</h1>
+    <div id="response">
+        <p id="responseText">Say "Hey Teacher" to start...</p>
+    </div>
+</div>
+</section>
+
+
+
+
+    
+
+    <script src="script.js"></script>
+   <script src="bootstrap.js"></script>
+
+   <script>
+    const apiKey = 'AIzaSyBvdeGnB6uBtVMD_2TLSsbE38SxiY7f8Es'; // Replace with your actual API key
+const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.continuous = true;
+recognition.interimResults = false;
+recognition.lang = 'en-US';
+
+let isRecognitionRunning = false;
+
+const predefinedResponses = {
+    "what is your name": "My name is Edu Bot Ai.",
+    "who is your developer": "Haseef Muhammed is my developer. You can visit his website at haseef-ws.netlify.app.",
+    "who made you": "Made by by Haseef, Agney, Archith, and Niranjan.",
+    "where are you from": "I belong to p.m.s.a.p.t.h.s.s Kakkove . ATL Lab",
+    "who is your designer": "Agney. A. is a multifaceted talent, excelling as a singer, designer, and technician. With a passion for music, Agney A delivers captivating performances that resonate with audiences. His design skills and technical expertise complement his artistic endeavors, creating a unique blend of creativity and precision.",
+    "create a welcome speech": "Hello everyone, Welcome to the launch of Edu Bot AI! We're excited to introduce this innovative AI-powered teacher, designed to make learning smarter, more personalized, and fun. Edu Bot AI is here to support students and teachers, making education more interactive and accessible. Thank you for joining us as we step into the future of education with Edu Bot AI.",
+    "Introduce yourself": "My name is Edu Bot Ai , Iam a robot teacher , I will give the answer for every questions , I have many intractive feature ,"
+};
+
+recognition.onresult = (event) => {
+    const transcript = event.results[event.results.length - 1][0].transcript.trim();
+    console.log('Transcript:', transcript);
+
+    const normalizedTranscript = transcript.toLowerCase();
+
+    if (normalizedTranscript.includes('hey teacher')) {
+        const question = normalizedTranscript.replace(/hey teacher/i, '').trim();
+        if (question) {
+            if (predefinedResponses[question]) {
+                const responseText = predefinedResponses[question];
+                document.getElementById('responseText').textContent = responseText;
+                speakText(responseText);
+            } else {
+                document.getElementById('responseText').textContent = `You asked: "${question}"`;
+                fetchContent(question);
+            }
+        } else {
+            document.getElementById('responseText').textContent = 'Please ask a question after saying "Hey Teacher".';
+        }
+    }
+};
+
+recognition.onend = () => {
+    console.log('Recognition ended, restarting...');
+    isRecognitionRunning = false;
+    startRecognition();
+};
+
+function startRecognition() {
+    if (!isRecognitionRunning) {
+        recognition.start();
+        isRecognitionRunning = true;
+    }
+}
+
+startRecognition();
+
+function fetchContent(text) {
+    fetch(endpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            contents: [
+                {
+                    parts: [
+                        {
+                            text: text
+                        }
+                    ]
+                }
+            ]
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorMessage => {
+                throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorMessage}`);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('API Response:', data);
+
+        const candidates = data.candidates || [];
+        const responseText = candidates.length > 0 && candidates[0].content && candidates[0].content.parts && candidates[0].content.parts[0] && candidates[0].content.parts[0].text;
+
+        if (responseText) {
+            const cleanedResponse = stripMarkdown(responseText);
+            document.getElementById('responseText').textContent = cleanedResponse;
+            speakText(cleanedResponse);
+        } else {
+            document.getElementById('responseText').textContent = 'No response from API.';
+            startRecognition();
+        }
+    })
+    .catch(error => {
+        console.error('Error details:', error);
+        document.getElementById('responseText').textContent = `Sorry, there was an error: ${error.message}`;
+        startRecognition();
+    });
+}
+
+// Function to strip markdown formatting from text
+function stripMarkdown(text) {
+    return text
+        .replace(/\*\*([^\*]+)\*\*/g, '$1') // Remove bold formatting
+        .replace(/\*([^\*]+)\*/g, '$1') // Remove italic formatting
+        .replace(/(^|\s)#[^\s]+/g, '') // Remove headers
+        .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
+        .replace(/\[.*?\]\(.*?\)/g, '') // Remove links
+        .replace(/`{1,3}.*?`{1,3}/g, '') // Remove inline code and code blocks
+        .trim();
+}
+
+// Function to read the text aloud with a female voice and limit to 20 seconds
+function speakText(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+    const femaleVoice = voices.find(voice => voice.name.includes('Female')) || voices[0];
+
+    if (femaleVoice) {
+        utterance.voice = femaleVoice;
+    }
+
+    const readTimeLimit = 60000; // 20 seconds
+    let speakingTimeout;
+
+    utterance.onend = () => {
+        console.log('Speech ended.');
+        document.getElementById('responseText').textContent += '\nYou can read from the screen.';
+        clearTimeout(speakingTimeout);
+        setTimeout(startRecognition, 1000); // Delay before restarting recognition
+    };
+
+    utterance.onerror = (event) => {
+        console.error('SpeechSynthesisUtterance.onerror', event);
+        clearTimeout(speakingTimeout);
+        setTimeout(startRecognition, 1000); // Delay before restarting recognition
+    };
+
+    // Stop recognition while speaking
+    recognition.stop();
+    isRecognitionRunning = false;
+    window.speechSynthesis.speak(utterance);
+
+    speakingTimeout = setTimeout(() => {
+        window.speechSynthesis.cancel();
+        document.getElementById('responseText').textContent += '\nYou can read from the screen.';
+        setTimeout(startRecognition, 1000); // Delay before restarting recognition
+    }, readTimeLimit); // Stop speaking after 20 seconds
+}
+
+// Ensure voices are loaded and set up
+window.speechSynthesis.onvoiceschanged = () => {
+    const voices = window.speechSynthesis.getVoices();
+    console.log('Voices:', voices);
+};
+
+
+// Dialog
+
+const dialog = document.querySelector("dialog");
+const showButton = document.querySelector("dialog + button");
+const closeButton = document.querySelector("dialog button");
+
+// "Show the dialog" button opens the dialog modally
+ dialog.showModal();
+// showButton.addEventListener("click", () => {
+//   dialog.showModal();
+// });
+
+// "Close" button closes the dialog
+closeButton.addEventListener("click", () => {
+  dialog.close();
+});
+
+
+
+
+   </script>
+</body>
+</html>
