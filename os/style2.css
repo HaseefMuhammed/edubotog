@@ -307,3 +307,15 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   margin-right: auto;
   display: block;
 }
+.wallet-bg{
+  background-image: url("images/wallet\ bg.png");
+  background-position: center;
+  background-size: cover;
+}
+
+/* EB MODELS */
+.eb-models h1{
+  color: white;
+  text-transform: uppercase;
+
+}
