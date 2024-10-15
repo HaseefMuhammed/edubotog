@@ -325,9 +325,17 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-transform: uppercase;
   font-family: playfair;
   border: 2px double white;
-  display: inline;
+  display: block;
   background-image: url("images/bg\ txt.png");
   background-size: cover;
   background-position: center;
+  align-items: center;
+  text-align: center;
+  margin: auto;
 
+}
+.model-3d iframe{
+  align-items: center;
+  text-align: center;
+  margin: auto;
 }
