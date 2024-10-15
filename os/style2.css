@@ -11,6 +11,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courgette&family=Delicious+Handrawn&family=Jersey+10&family=Noto+Kufi+Arabic:wght@100..900&family=Noto+Sans+Malayalam:wght@100..900&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rubik+Scribble&family=Rubik:ital,wght@0,300..900;1,300..900&family=Shadows+Into+Light&family=Workbench&display=swap');
 /* copy from style.css */
 
+  @font-face {
+    font-family: playfair;
+    src: url('fonts/PlayfairDisplay-VariableFont_wght.ttf');
+  }
+
 .icon{
     width: 10em;
 }
@@ -316,6 +321,13 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 /* EB MODELS */
 .eb-models h1{
   color: white;
+  padding: 0.5em;
   text-transform: uppercase;
+  font-family: playfair;
+  border: 2px double white;
+  display: inline;
+  background-image: url("images/bg\ txt.png");
+  background-size: cover;
+  background-position: center;
 
 }
