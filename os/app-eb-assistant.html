@@ -115,7 +115,7 @@ const predefinedResponses = {
     "who made you": "Made by by Haseef, Agney, Archith, and Niranjan.",
     "where are you from": "I belong to p.m.s.a.p.t.h.s.s Kakkove . ATL Lab",
     "who is your designer": "Agney. A. is a multifaceted talent, excelling as a singer, designer, and technician. With a passion for music, Agney A delivers captivating performances that resonate with audiences. His design skills and technical expertise complement his artistic endeavors, creating a unique blend of creativity and precision.",
-    "create a welcome speech": "Hello everyone, Welcome to the launch of Edu Bot AI! We're excited to introduce this innovative AI-powered teacher, designed to make learning smarter, more personalized, and fun. Edu Bot AI is here to support students and teachers, making education more interactive and accessible. Thank you for joining us as we step into the future of education with Edu Bot AI.",
+    "tell me a welcome speech": "Chirak vijayakaramayi aaghōshikkaanaya ella vidyarthikalkum, adhyapakarum abhinandanangal. Ee kalamela ningalude kazhivukale puthiya uyaranngalil ethichirikkatte. Thank you, and enjoy the show! ",
     "Introduce yourself": "My name is Edu Bot Ai , Iam a robot teacher , I will give the answer for every questions , I have many intractive feature ,"
 };
 
@@ -227,7 +227,7 @@ function speakText(text) {
         utterance.voice = femaleVoice;
     }
 
-    const readTimeLimit = 60000; // 20 seconds
+    const readTimeLimit = 120000; // 120 seconds
     let speakingTimeout;
 
     utterance.onend = () => {

@@ -1,124 +1,103 @@
-// Dont use this operationg system without lisence
-// copyright 2024 Haseef Muhammer
+// Don't use this operating system without a license
+// Copyright 2024 Haseef Muhammed
 // Web Craft and Any Time Services
-// Library FLowwaypc
-// css library Haseef Swift language
-// Server Git Hub
-// This website already hosted on netlify inc
+// Library: FlowwayPC
+// CSS Library: Haseef Swift Language
+// Server: GitHub
+// This website is already hosted on Netlify Inc.
 
-console.log("Dont use this operationg system without lisence copyright 2024 Haseef Muhammer Web Craft and Any Time Services Library FLowwaypc css library Haseef Swift languageServer Git HubThis website already hosted on netlify inc");
+console.log("Don't use this operating system without a license. Copyright 2024 Haseef Muhammed. Web Craft and Any Time Services. Library: FlowwayPC, CSS Library: Haseef Swift Language, Server: GitHub. This website is already hosted on Netlify Inc.");
 
-// clock
-
+// Clock
 window.addEventListener("load", () => {
     clock();
+    
     function clock() {
-      const today = new Date();
-  
-      // get time components
-      const hours = today.getHours();
-      const minutes = today.getMinutes();
-      const seconds = today.getSeconds();
-  
-      //add '0' to hour, minute & second when they are less 10
-      const hour = hours < 10 ? "0" + hours : hours;
-      const minute = minutes < 10 ? "0" + minutes : minutes;
-      const second = seconds < 10 ? "0" + seconds : seconds;
-  
-      //make clock a 12-hour time clock
-      const hourTime = hour > 12 ? hour - 12 : hour;
-  
-      // if (hour === 0) {
-      //   hour = 12;
-      // }
-      //assigning 'am' or 'pm' to indicate time of the day
-      const ampm = hour < 12 ? " AM" : " PM";
-  
-      // get date components
-      const month = today.getMonth();
-      const year = today.getFullYear();
-      const day = today.getDate();
-  
-      //declaring a list of all months in  a year
-      const monthList = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ];
-  
-      //get current date and time
-      const date = monthList[month] + " " + day + " " + year;
-      const time = hourTime + ":" + minute + ":" + second + ampm;
-  
-      //combine current date and time
-      const dateTime = date + " - " + time;
-  
-      //print current date and time to the DOM
-      document.getElementById("date-time").innerHTML = dateTime;
-      setTimeout(clock, 1000);
+        const today = new Date();
+        
+        // Get time components
+        const hours = today.getHours();
+        const minutes = today.getMinutes();
+        const seconds = today.getSeconds();
+        
+        // Add '0' to hour, minute & second when they are less than 10
+        const hour = hours < 10 ? "0" + hours : hours;
+        const minute = minutes < 10 ? "0" + minutes : minutes;
+        const second = seconds < 10 ? "0" + seconds : seconds;
+        
+        // Make clock a 12-hour time clock
+        const hourTime = hour > 12 ? hour - 12 : hour;
+        
+        // Assign 'am' or 'pm' to indicate time of the day
+        const ampm = hour < 12 ? " AM" : " PM";
+        
+        // Get date components
+        const month = today.getMonth();
+        const year = today.getFullYear();
+        const day = today.getDate();
+        
+        // Declaring a list of all months in a year
+        const monthList = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        
+        // Get current date and time
+        const date = `${monthList[month]} ${day}, ${year}`;
+        const time = `${hourTime}:${minute}:${second}${ampm}`;
+        
+        // Combine current date and time
+        const dateTime = `${date} - ${time}`;
+        
+        // Print current date and time to the DOM
+        document.getElementById("date-time").innerHTML = dateTime;
+        
+        // Update the clock every second
+        setTimeout(clock, 1000);
     }
-  });
+});
 
-//   Tap Tap
-
+// Tap Tap Sound Effect
 const audio = new Audio();
 audio.src = "images/effect.mp3";
 
-
 // JavaScript for horizontal scrolling between pages
-// JavaScript for horizontal scrolling between pages and automatic scrolling
 let isDragging = false;
 let startX, scrollLeft;
 let currentPageIndex = 0;
 const pages = document.querySelectorAll('.page');
+const scrollable = document.getElementById('scrollable');
 
-document.getElementById('scrollable').addEventListener('mousedown', startDragging);
-document.getElementById('scrollable').addEventListener('touchstart', startDragging);
+scrollable.addEventListener('mousedown', startDragging);
+scrollable.addEventListener('touchstart', startDragging);
 
 function startDragging(e) {
-  isDragging = true;
-  if (e.type === 'mousedown') {
-    startX = e.pageX - document.getElementById('scrollable').offsetLeft;
-  } else if (e.type === 'touchstart') {
-    startX = e.touches[0].pageX - document.getElementById('scrollable').offsetLeft;
-  }
-  scrollLeft = document.getElementById('scrollable').scrollLeft;
+    isDragging = true;
+    startX = (e.type === 'mousedown') ? e.pageX - scrollable.offsetLeft : e.touches[0].pageX - scrollable.offsetLeft;
+    scrollLeft = scrollable.scrollLeft;
 }
 
-document.getElementById('scrollable').addEventListener('mousemove', moveScroll);
-document.getElementById('scrollable').addEventListener('touchmove', moveScroll);
+scrollable.addEventListener('mousemove', moveScroll);
+scrollable.addEventListener('touchmove', moveScroll);
 
 function moveScroll(e) {
-  if (!isDragging) return;
-  e.preventDefault();
-  let x;
-  if (e.type === 'mousemove') {
-    x = e.pageX - document.getElementById('scrollable').offsetLeft;
-  } else if (e.type === 'touchmove') {
-    x = e.touches[0].pageX - document.getElementById('scrollable').offsetLeft;
-  }
-  const walk = (x - startX) * 3; // Adjust scrolling speed as needed
-  document.getElementById('scrollable').scrollLeft = scrollLeft - walk;
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = (e.type === 'mousemove') ? e.pageX - scrollable.offsetLeft : e.touches[0].pageX - scrollable.offsetLeft;
+    const walk = (x - startX) * 3; // Adjust scrolling speed as needed
+    scrollable.scrollLeft = scrollLeft - walk;
 }
 
-document.getElementById('scrollable').addEventListener('mouseup', stopDragging);
-document.getElementById('scrollable').addEventListener('mouseleave', stopDragging);
-document.getElementById('scrollable').addEventListener('touchend', stopDragging);
+scrollable.addEventListener('mouseup', stopDragging);
+scrollable.addEventListener('mouseleave', stopDragging);
+scrollable.addEventListener('touchend', stopDragging);
 
 function stopDragging() {
-  isDragging = false;
+    isDragging = false;
 }
 
-document.getElementById('scrollable').addEventListener('wheel', (e) => {
+// Handle scroll with mouse wheel
+scrollable.addEventListener('wheel', (e) => {
     e.preventDefault(); // Prevent default scrolling behavior
 
     // Calculate the direction of scrolling
@@ -137,9 +116,5 @@ document.getElementById('scrollable').addEventListener('wheel', (e) => {
     currentPageIndex = nextPageIndex;
 });
 
-
-// calculator
-
-console.log("script ideled");
-
-
+// Calculator (Not implemented; placeholder for future use)
+console.log("Script initialized");
