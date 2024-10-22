@@ -227,7 +227,7 @@ function speakText(text) {
         utterance.voice = femaleVoice;
     }
 
-    const readTimeLimit = 120000; // 120 seconds
+    const readTimeLimit = 60000; // 60 seconds
     let speakingTimeout;
 
     utterance.onend = () => {
