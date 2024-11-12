@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EB Attendance</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="icon" href="images/icon.png" type="image/logo">
+    <script src="https://kit.fontawesome.com/3945bc0b8d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="bootstrap.css">
+
+    <style>
+      /* Import Google Font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+.transl-app{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+.transl-app{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  min-height: 100vh;
+  background: #5372F0;
+}
+.transl-app .container{
+  max-width: 690px;
+  width: 100%;
+  padding: 30px;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.01);
+}
+.transl-app .wrapper{
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.transl-app .wrapper .text-input{
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+.transl-app .text-input .to-text{
+  border-radius: 0px;
+  border-left: 1px solid #ccc;
+}
+.transl-app .text-input textarea{
+  height: 250px;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  background: none;
+  font-size: 18px;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+.transl-app .text-input textarea::placeholder{
+  color: #b7b6b6;
+}
+.transl-app .controls, li, .icons, .icons i{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.transl-app .controls{
+  list-style: none;
+  padding: 12px 15px;
+}
+.transl-app .controls .row .icons{
+  width: 38%;
+}
+.transl-app .controls .row .icons i{
+  width: 50px;
+  color: #adadad;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  justify-content: center;
+}
+.transl-app .controls .row.from .icons{
+  padding-right: 15px;
+  border-right: 1px solid #ccc;
+}
+.transl-app .controls .row.to .icons{
+  padding-left: 15px;
+  border-left: 1px solid #ccc;
+}
+.transl-app .controls .row select{
+  color: #333;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  background: none;
+  padding-left: 5px;
+}
+.transl-app .text-input textarea::-webkit-scrollbar{
+  width: 4px;
+}
+.transl-app .controls .row select::-webkit-scrollbar{
+  width: 8px;
+}
+.transl-app .text-input textarea::-webkit-scrollbar-track,
+.transl-app .controls .row select::-webkit-scrollbar-track{
+  background: #fff;
+}
+.transl-app .text-input textarea::-webkit-scrollbar-thumb{
+  background: #ddd;
+  border-radius: 8px;
+}
+.transl-app .controls .row select::-webkit-scrollbar-thumb{
+  background: #999;
+  border-radius: 8px;
+  border-right: 2px solid #ffffff;
+}
+.transl-app .controls .exchange{
+  color: #adadad;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+.transl-app .controls i:active{
+  transform: scale(0.9);
+}
+.transl-app .container button{
+  width: 100%;
+  padding: 14px;
+  outline: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 17px;
+  border-radius: 5px;
+  background: #5372F0;
+}
+.transl-app .container button:hover{
+  animation: bgchange;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+}
+@keyframes bgchange{
+  from{background-color: red;}
+  to{background: #5372F0;};
+}
+
+@media (max-width: 660px){
+  .transl-app .container{
+    padding: 20px;
+  }
+  .transl-app .wrapper .text-input{
+    flex-direction: column;
+  }
+  .transl-app .text-input .to-text{
+    border-left: 0px;
+    border-top: 1px solid #ccc;
+  }
+  .transl-app .text-input textarea{
+    height: 200px;
+  }
+  .transl-app .controls .row .icons{
+    display: none;
+  }
+  .transl-app .container button{
+    padding: 13px;
+    font-size: 16px;
+  }
+  .transl-app .controls .row select{
+    font-size: 16px;
+  }
+  .transl-app .controls .exchange{
+    font-size: 14px;
+  }
+}
+.transl-app #from:hover{
+  color: rgb(3, 39, 145);
+}
+.transl-app #from:active{
+  color: rgb(3, 39, 145);
+}
+
+.transl-app #to:hover{
+  color: rgb(151, 0, 73);
+}
+.transl-app #to:active{
+  color: rgb(151, 0, 73);
+}
+    </style>
+</head>
+<body class="bg-dark">
+      <!-- All rights resieved from FLOWWAY PUBLICATIONS 
+  THIS IS UNDER LICENSE TO KNOW ABOUT LICENCE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO/CONTACT
+  IF YOU ARE MAKING COPY OF THE ORGINAL ONE YOU MIGHT RESIEVE COPYWRITE AND WE WILL MAKE A COMPLAINT ON COURT.
+
+  -----TO GET LICENSE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO-----------
+  
+  ------------
+
+  IF YOU WANT AN OPERATING SYSTEM PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO /OR/ HASEEF-WS.NETLIFY.APP
+
+  LICENSE NO :  HW-FL-MB-001-2024
+  ©2024
+
+
+  ----- Dont use this operationg system without lisence-----
+  copyright 2024 Haseef Muhammed
+  Web Craft and Any Time Service
+  Library FLowwaypc
+  css library: Haseef Swift language
+  Server Git Hub
+  This website already hosted on netlify inc
+  -->
+
+<header>
+    <nav  class="fixed-top bg-dark">
+        <h4 class="text-white p-1 mx-4"><a id="tap" onclick="audio.play()" class="text-white tap" href="app-eb-vaulter.html"> <i class="fa-solid fa-arrow-left"></i></a> EB Translate</h4>
+    </nav>
+</header>
+
+<section class="mt-5 transl-app">
+    
+  <div class="container">
+    <div class="wrapper">
+      <div class="text-input">
+        <textarea spellcheck="false" class="from-text" placeholder="Enter text"></textarea>
+        <textarea spellcheck="false" readonly disabled class="to-text" placeholder="Translation"></textarea>
+      </div>
+      <ul class="controls">
+        <li class="row from">
+          <div class="icons">
+            <!-- <i id="from" class="fas fa-volume-up"></i> -->
+            <i id="from" class="fas fa-copy"></i>
+          </div>
+          <select></select>
+        </li>
+        <li class="exchange"><i class="fas fa-exchange-alt"></i></li>
+        <li class="row to">
+          <select></select>
+          <div class="icons">
+            <!-- <i id="to" class="fas fa-volume-up"></i> -->
+            <i id="to" class="fas fa-copy"></i>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <button class="translate-btn">Translate Text</button>
+  </div>
+
+</section>
+
+
+
+
+    
+
+    <script src="script.js"></script>
+    <script src="bootstrap.js"></script>
+    <script src="app-eb-translate-lang.js"></script>
+    <script src="app-eb-translate.js"></script>
+</body>
+</html>
