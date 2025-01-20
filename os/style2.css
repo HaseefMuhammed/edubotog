@@ -339,3 +339,15 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-align: center;
   margin: auto;
 }
+
+
+
+/* Preloader */
+#preloader{
+  background: white url(images/loading.gif) no-repeat center center;
+  background-size: 50%;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+}
