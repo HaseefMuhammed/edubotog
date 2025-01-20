@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EDU BOT</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="icon" href="images/icon.png" type="image/logo">
+    <script src="https://kit.fontawesome.com/3945bc0b8d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="bootstrap.css">
+    <style>
+       .color-box {
+            height: 100px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+      <!-- All rights resieved from FLOWWAY PUBLICATIONS 
+  THIS IS UNDER LICENSE TO KNOW ABOUT LICENCE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO/CONTACT
+  IF YOU ARE MAKING COPY OF THE ORGINAL ONE YOU MIGHT RESIEVE COPYWRITE AND WE WILL MAKE A COMPLAINT ON COURT.
+
+  -----TO GET LICENSE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO-----------
+  
+  ------------
+
+  IF YOU WANT AN OPERATING SYSTEM PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO /OR/ HASEEF-WS.NETLIFY.APP
+
+  LICENSE NO :  HW-FL-MB-001-2024
+  ©2024
+
+
+  ----- Dont use this operationg system without lisence-----
+  copyright 2024 Haseef Muhammed
+  Web Craft and Any Time Services
+  Library FLowwaypc
+  css library: Haseef Swift language
+  Server Git Hub
+  This website already hosted on netlify inc
+  -->
+
+<header>
+    <nav class="fixed-top bg-dark">
+        <h4 class="text-white p-1 mx-4"><a id="tap" onclick="audio.play()" class="text-white tap" href="settings.html"> <i class="fa-solid fa-arrow-left"></i></a> Settings</h4>
+    </nav>
+</header>
+
+<section class="mt-5">
+  <div class="container mt-5">
+    <div class="p-2"></div>
+    <h1 class="text-center mt-5">OS & Device checker</h1>
+    <hr>
+
+    <!-- Display Info Section -->
+    <div class="mb-4">
+        <h2>Display Information</h2>
+        <ul id="display-info" class="list-group">
+            <li class="list-group-item">Loading...</li>
+        </ul>
+    </div>
+
+    <!-- Device Info Section -->
+    <div class="mb-4">
+        <h2>Device Information</h2>
+        <ul id="device-info" class="list-group">
+            <li class="list-group-item">Loading...</li>
+        </ul>
+    </div>
+
+    <!-- Color Testing Section -->
+    <div class="mb-4">
+        <h2>Color Testing</h2>
+        <div class="row">
+            <div class="col-3">
+                <div class="color-box bg-danger" onclick="testColor('red')"></div>
+            </div>
+            <div class="col-3">
+                <div class="color-box bg-success" onclick="testColor('green')"></div>
+            </div>
+            <div class="col-3">
+                <div class="color-box bg-primary" onclick="testColor('blue')"></div>
+            </div>
+            <div class="col-3">
+                <div class="color-box bg-warning" onclick="testColor('yellow')"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sound Testing Section -->
+    <div class="mb-4">
+        <h2>Sound Testing</h2>
+        <button class="btn btn-primary" onclick="testSound()">Play Test Sound</button>
+    </div>
+
+    <!-- Touch Testing Section -->
+    <div class="mb-4">
+        <h2>Touch Testing</h2>
+        <div id="touch-box" class="border p-3 text-center" style="height: 150px;">
+            Touch here
+        </div>
+        <p id="touch-info" class="mt-2">Number of touches: 0</p>
+    </div>
+
+    <!-- Vibration Testing Section -->
+    <div class="mb-4">
+        <h2>Vibration Testing</h2>
+        <button class="btn btn-warning" onclick="testVibration()">Test Vibration</button>
+    </div>
+
+    <!-- Network Information Section -->
+    <div class="mb-4">
+        <h2>Network Information</h2>
+        <ul id="network-info" class="list-group">
+            <li class="list-group-item">Loading...</li>
+        </ul>
+    </div>
+
+    <!-- Battery Information Section -->
+    <div class="mb-4">
+        <h2>Battery Information</h2>
+        <ul id="battery-info" class="list-group">
+            <li class="list-group-item">Loading...</li>
+        </ul>
+    </div>
+</div>
+</section>
+
+
+    
+<script>
+  // Display Information
+  const displayInfo = document.getElementById("display-info");
+  displayInfo.innerHTML = `
+      <li class="list-group-item">Screen Width: ${window.screen.width}px</li>
+      <li class="list-group-item">Screen Height: ${window.screen.height}px</li>
+      <li class="list-group-item">Inner Width: ${window.innerWidth}px</li>
+      <li class="list-group-item">Inner Height: ${window.innerHeight}px</li>
+  `;
+
+  // Device Information
+  const deviceInfo = document.getElementById("device-info");
+  deviceInfo.innerHTML = `
+      <li class="list-group-item">User Agent: ${navigator.userAgent}</li>
+      <li class="list-group-item">Platform: ${navigator.platform}</li>
+      <li class="list-group-item">Language: ${navigator.language}</li>
+  `;
+
+  // Color Testing
+  function testColor(color) {
+      document.body.style.backgroundColor = color;
+      setTimeout(() => {
+          document.body.style.backgroundColor = "white";
+      }, 1000);
+  }
+
+  // Sound Testing
+  function testSound() {
+      const audio = new Audio("images/dev.mp3");
+      audio.play();
+  }
+
+  // Touch Testing
+  const touchBox = document.getElementById("touch-box");
+  const touchInfo = document.getElementById("touch-info");
+  let touchCount = 0;
+
+  touchBox.addEventListener("touchstart", () => {
+      touchCount++;
+      touchInfo.textContent = `Number of touches: ${touchCount}`;
+  });
+
+  // Vibration Testing
+  function testVibration() {
+      if (navigator.vibrate) {
+          navigator.vibrate([500, 300, 500]);
+          alert("Vibration triggered!");
+      } else {
+          alert("Vibration is not supported on this device.");
+      }
+  }
+
+  // Network Information
+  const networkInfo = document.getElementById("network-info");
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+  if (connection) {
+      networkInfo.innerHTML = `
+          <li class="list-group-item">Type: ${connection.type || "Unknown"}</li>
+          <li class="list-group-item">Effective Type: ${connection.effectiveType || "Unknown"}</li>
+          <li class="list-group-item">Downlink: ${connection.downlink || "Unknown"} Mbps</li>
+      `;
+  } else {
+      networkInfo.innerHTML = `<li class="list-group-item">Network information not available.</li>`;
+  }
+
+  // Battery Information
+  const batteryInfo = document.getElementById("battery-info");
+
+  if (navigator.getBattery) {
+      navigator.getBattery().then((battery) => {
+          batteryInfo.innerHTML = `
+              <li class="list-group-item">Battery Level: ${(battery.level * 100).toFixed(0)}%</li>
+              <li class="list-group-item">Charging: ${battery.charging ? "Yes" : "No"}</li>
+          `;
+      });
+  } else {
+      batteryInfo.innerHTML = `<li class="list-group-item">Battery information not available.</li>`;
+  }
+</script>
+    <script src="script.js"></script>
+    <script src="bootstrap.js"></script>
+</body>
+</html>

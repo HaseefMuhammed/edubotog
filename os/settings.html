@@ -80,7 +80,7 @@
           </tr>
           <tr>
             <td class="bg-dark text-white">Version</td>
-            <td class="bg-dark text-white "><a class="text-decoration-none text-white" href="#">7.5</a></td>
+            <td class="bg-dark text-white "><a class="text-decoration-none text-white" id="devTap">8.1</a></td>
           </tr>
           <tr>
             <td class="bg-dark text-white">Last update date</td>
@@ -214,6 +214,17 @@ function saver(){
     function dialogClose(){
     window.location.href = "settings.html";
 }
+
+let tapCount = 0;
+        const maxTaps = 5;
+        const tapText = document.getElementById('devTap');
+
+        tapText.addEventListener('click', () => {
+            tapCount++;
+            if (tapCount === maxTaps) {
+                window.location.href = 'frame-works-devop.html'; // Replace 'target.html' with your desired HTML page
+            }
+        });
     </script>
     <script src="bootstrap.js"></script>
 </body>
