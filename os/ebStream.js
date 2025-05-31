@@ -1,6 +1,21 @@
 const APP_ID = "26615088d2834fa49c767edbb96c92da";
-const TOKEN = "007eJxTYFg87eCaBPc7d28XZfyRUvTmdD/o7Oa6Zsmb3fNudX88/uCsAoORmZmhqYGFRYqRhbFJWqKJZbK5mXlqSlKSpVmypVFKYqavVEZDICODoPYURkYGCATxWRhyEzPzGBgA8J4guQ==";
 const CHANNEL = "main";
+let TOKEN = ""; // Will be fetched dynamically
+
+const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRAE8Dzdug6VpiXLeF9nhEl7Ycmit5IUejRwhZ-wlIkeSLurJxAC0jX1FkNmA4T1jN73HR_U_BDhJj3/pub?output=csv";
+
+async function fetchTokenFromSheet() {
+  try {
+    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+    const text = await response.text();
+    // The token should be in the first cell (A1)
+    TOKEN = text.split('\n')[0].replace(/"/g, '').trim();
+    console.log("Fetched TOKEN from Google Sheet:", TOKEN); // Log the fetched token
+  } catch (error) {
+    console.error("Failed to fetch token from Google Sheet:", error);
+    throw error;
+  }
+}
 
 const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
 
@@ -8,7 +23,7 @@ let localTracks = [];
 let remoteUsers = {};
 
 let joinAndDisplayLocalStream = async () => {
-
+  await fetchTokenFromSheet();
   client.on('user-published', handleUserJoined)
   client.on('user-left', handleUserLeft)
   try {
