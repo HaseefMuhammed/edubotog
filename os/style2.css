@@ -123,7 +123,7 @@ table{
 
 
 /* calc */
-  .container-calc {
+  /* .container-calc {
     position: relative;
     min-width: 300px;
     min-height: 400px;
@@ -217,7 +217,7 @@ table{
     border-left: 1px solid #fff4;
     border-bottom: 1px solid #fff4;
     border-top: 1px solid #fff4;
-  }
+  } */
   
 .tap{
   font-size: 1.5em;
@@ -316,6 +316,7 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   background-image: url("images/wallet\ bg.png");
   background-position: center;
   background-size: cover;
+  background-attachment: fixed;
 }
 
 /* EB MODELS */
@@ -350,4 +351,16 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 100%;
   position: fixed;
   z-index: 100;
+}
+
+
+/* Glassmorphism */
+
+.glassmorphism {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.043);
 }

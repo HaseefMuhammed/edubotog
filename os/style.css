@@ -8,7 +8,8 @@
 */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courgette&family=Delicious+Handrawn&family=Noto+Kufi+Arabic:wght@100..900&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rubik+Scribble&family=Rubik:ital,wght@0,300..900;1,300..900&family=Shadows+Into+Light&family=Workbench&display=swap');
 body{
-    background-image: url("images/bg\ for\ fm.png");
+    /* background-image: url("images/bg\ for\ fm.png"); */
+    background-image: url("images/bg\ group\ image.png");
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -76,7 +77,8 @@ body {
 
 /* climate */
 .climate{
-    background-image: url("images/weather\ bg.png");
+    /* background-image: url("images/weather\ bg.png"); */
+    filter: blur(0.5px);
     background-position: center;
     background-attachment: scroll;
     background-size: cover;
@@ -100,25 +102,38 @@ body {
     width: 5em;
 }
 .a{
-    text-decoration: none;
-}
-
-
-.hide{
-    visibility: hidden;
-}
-#tap:hover{
-  opacity: 0.8;
-}
-
-/* Preloader */
-
-/* Preloader */
-#preloader{
-  background: white url(images/loading.mp4) no-repeat center center;
-  background-size: 50%;
-  height: 100vh;
   width: 100%;
   position: fixed;
   z-index: 100;
+}
+
+.glassmorphism {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.043);
+    padding: 2rem 1rem;
+}
+
+.glassmorphism-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    background: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 0;
+    border: none;
+}
+
+/* Ensure main content is above the glassmorphism background */
+body > *:not(.glassmorphism-screen) {
+    position: relative;
+    z-index: 1;
 }

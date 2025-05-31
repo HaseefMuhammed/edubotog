@@ -8,6 +8,14 @@
   <link rel="stylesheet" href="bootstrap.css">
   <!-- <link rel="stylesheet" href="https://haseefmuhammed.github.io/Haseef-Swift/haseef-swift-og.css"> -->
   <title>EDU BOT</title>
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('os/service-worker.js');
+      });
+    }
+  </script>
 </head>
 <body>
   <!-- All rights resieved from FLOWWAY PUBLICATIONS 

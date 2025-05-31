@@ -1,0 +1,21 @@
+{
+  "name": "EDU BOT",
+  "short_name": "EduBot",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#181818",
+  "theme_color": "#181818",
+  "description": "EDU BOT OS Progressive Web App",
+  "icons": [
+    {
+      "src": "os/images/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "os/images/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

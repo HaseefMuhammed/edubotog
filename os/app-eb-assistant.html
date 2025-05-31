@@ -9,38 +9,147 @@
     <script src="https://kit.fontawesome.com/3945bc0b8d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="bootstrap.css">
     <style>
-      /* styles.css */
-body {
-  font-family: Arial, sans-serif;
-  /* background: linear-gradient(to right, #ff7e5f, #feb47b); */
-  background: linear-gradient(to right, #c300ff, #6bb3c7);
-  color: #fff;
+      /* Standard clean UI styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
-
+.glass-bg, .glass-reflection {
+  display: none !important;
+}
 .container {
   max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  margin: 70px auto 30px auto;
+  padding: 2.5rem 2rem 2rem 2rem;
+  border-radius: 1.2rem;
+  background: #fff;
+  box-shadow: 0 2px 16px 0 rgba(60,60,60,0.07);
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+  border: 1px solid #e0e0e0;
+  transition: box-shadow 0.2s;
 }
-
-#response {
-  margin-top: 20px;
+.container:hover {
+  box-shadow: 0 4px 24px 0 rgba(60,60,60,0.10);
 }
-
+nav.glassmorphism {
+  background: #fff !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px 0 rgba(60,60,60,0.07);
+  border-radius: 0 0 1rem 1rem;
+  z-index: 10;
+}
+nav h4 {
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #222;
+  text-shadow: none;
+}
+.icon-glow {
+  filter: none;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  background: #f5f6fa;
+  padding: 0.5rem;
+  box-shadow: 0 1px 4px #e0e0e0;
+  animation: none;
+}
+h1 {
+  font-family: 'Oswald', 'Arial', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #222;
+  text-shadow: none;
+  margin-bottom: 1rem;
+}
 #responseText {
-  font-size: 18px;
+  font-size: 1rem;
+  color: #222;
+  white-space: pre-wrap;
+  background: #f5f6fa;
+  border-radius: 0.8rem;
+  padding: 1rem 1.2rem;
+  margin-top: 1.2rem;
+  box-shadow: 0 1px 4px #e0e0e0;
+  border: 1px solid #e0e0e0;
+  transition: background 0.2s, box-shadow 0.2s;
+  animation: none;
+}
+#responseText:empty {
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+button, .btn {
+  background: #4a69bd;
   color: #fff;
-  white-space: pre-wrap; /* Maintain newlines in the response text */
+  border: none;
+  border-radius: 1rem;
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 1px 4px #e0e0e0;
+  margin: 0.5rem 0;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  outline: none;
+  position: relative;
+  overflow: hidden;
 }
-dialog{
-  border-radius: 10px;
+button:hover, .btn:hover {
+  background: #3867d6;
+  box-shadow: 0 2px 8px #b2bec3;
+  transform: translateY(-1px) scale(1.03);
+}
+dialog {
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 16px #e0e0e0;
+  border: 1px solid #e0e0e0;
+  color: #222;
+  font-size: 1rem;
+  padding: 1.5rem 1rem 1rem 1rem;
+  z-index: 20;
+  transition: box-shadow 0.2s;
+}
+dialog button {
+  margin-top: 1rem;
+  background: #4a69bd;
+  color: #fff;
+  border-radius: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 1px 4px #e0e0e0;
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
-
+dialog button:hover {
+  background: #3867d6;
+  box-shadow: 0 2px 8px #b2bec3;
+}
+@media (max-width: 700px) {
+  .container {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem;
+  }
+  h1 {
+    font-size: 1.3rem;
+  }
+  .icon-glow {
+    width: 60px;
+    height: 60px;
+  }
+}
     </style>
 </head>
 <body class="bg-dark">
@@ -73,8 +182,8 @@ dialog{
 
 
 <header>
-    <nav  class="fixed-top bg-dark">
-        <h4 class="text-white p-1 mx-4"><a id="tap" onclick="audio.play()" class="text-white tap" href="home.html"> <i class="fa-solid fa-arrow-left"></i></a> EB ASSISTANT</h4>
+    <nav  class="fixed-top glassmorphism">
+        <h4 class="text-dark p-1 mx-4"><a id="tap" onclick="audio.play()" class="text-white tap" href="home.html"> <i class="fa-solid text-dark fa-arrow-left"></i></a> EB ASSISTANT</h4>
     </nav>
 </header>
 <div class="p-3"></div>
@@ -86,7 +195,7 @@ dialog{
   </dialog>
 
 <div class="container">
-    <iframe style="border: none;" src="https://lottie.host/embed/3b36e97c-7786-4244-8209-adc49e8cd72a/g91OPodIOA.json"></iframe>
+    <img src="images/voiceast.gif" alt="" class="icon-glow">
     <h1>EDU BOT ASSISTANT</h1>
     <div id="response">
         <p id="responseText">Say "Hey Teacher" to start...</p>
