@@ -1,5 +1,5 @@
 const APP_ID = "26615088d2834fa49c767edbb96c92da";
-const TOKEN = "007eJxTYLDl9PW4Gaa6T8/p4MLjk/lm/riQOeVbqcF/e9W1x88abMtUYDAyMzM0NbCwSDGyMDZJSzSxTDY3M09NSUqyNEu2NEpJdO2cn94QyMgQoS7AwAiFID4LQ25iZh4DAwAyNR6r";
+const TOKEN = "007eJxTYFg87eCaBPc7d28XZfyRUvTmdD/o7Oa6Zsmb3fNudX88/uCsAoORmZmhqYGFRYqRhbFJWqKJZbK5mXlqSlKSpVmypVFKYqavVEZDICODoPYURkYGCATxWRhyEzPzGBgA8J4guQ==";
 const CHANNEL = "main";
 
 const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
