@@ -179,6 +179,18 @@
             <td class="bg-dark text-white">service</td>
             <td class="bg-dark text-white">TEB Innovations</td>
           </tr>
+          <tr>
+            <td class="bg-dark text-white">Welcome back to school</td>
+            <td class="bg-dark text-white" onclick="wlcschool()">Open</td>
+            <dialog id="wlcmschool" class="dialog-admin text-center align-items-center">
+              <h1>Welcome back to school</h1>
+              <video controls loop src="images/welcome back school.mp4" width="50%"></video>
+              <!-- <p>I'm Haseef Muhammed PC, a certified  frontend developer from Malappuram, Kerala. I specialize in creating responsive and visually engaging websites with expertise in HTML, CSS, and JavaScript, J Quary , Bootstrap <br> My website :- haseef-ws.netlify.app</p>
+              <h4>Class: 9H</h4>
+              <h4>School: PMSAPTHSS KAKKOVE</h4> -->
+              <button class="btn btn-primary mt-3" onclick="dialogClose()">Close</button>
+            </dialog>
+          </tr>
         </tbody>
       </table>
 </section>
@@ -229,6 +241,14 @@ function admin2(){
 
 function saver(){
   const dialogAdmin1 = document.getElementById("saver");
+    dialogAdmin1.showModal();
+      }
+    function dialogClose(){
+    window.location.href = "settings.html";
+}
+
+function wlcschool(){
+  const dialogAdmin1 = document.getElementById("wlcmschool");
     dialogAdmin1.showModal();
       }
     function dialogClose(){
