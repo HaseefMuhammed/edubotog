@@ -16,6 +16,174 @@
     src: url('fonts/PlayfairDisplay-VariableFont_wght.ttf');
   }
 
+/* Dark Animated AI & Education Theme Background */
+body{
+    background: linear-gradient(-45deg, #0a0e27, #1a0b2e, #16213e, #0f1419, #1e1b4b);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    position: relative;
+    overflow-x: hidden;
+    color: #e5e7eb;
+}
+
+/* Video Background */
+#video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Dark Overlay for Video */
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark tint - adjust opacity as needed */
+    z-index: -1;
+}
+
+/* Gradient Animation */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* AI Neural Network - Connecting Nodes */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        /* Glowing nodes */
+        radial-gradient(circle at 15% 20%, rgba(96, 165, 250, 0.3) 3px, transparent 3px),
+        radial-gradient(circle at 85% 30%, rgba(167, 139, 250, 0.25) 2.5px, transparent 2.5px),
+        radial-gradient(circle at 45% 60%, rgba(34, 211, 238, 0.3) 2px, transparent 2px),
+        radial-gradient(circle at 70% 75%, rgba(59, 130, 246, 0.2) 3px, transparent 3px),
+        radial-gradient(circle at 25% 85%, rgba(124, 58, 237, 0.25) 2.5px, transparent 2.5px),
+        radial-gradient(circle at 90% 15%, rgba(14, 165, 233, 0.2) 2px, transparent 2px),
+        radial-gradient(circle at 55% 40%, rgba(139, 92, 246, 0.3) 2.5px, transparent 2.5px),
+        /* Circuit board lines */
+        linear-gradient(90deg, rgba(96, 165, 250, 0.05) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+    background-size: 300px 300px, 350px 350px, 280px 280px, 320px 320px, 290px 290px, 340px 340px, 310px 310px, 50px 50px, 50px 50px;
+    background-position: 0 0, 100px 50px, 200px 150px, 50px 200px, 250px 100px, 150px 250px, 100px 100px, 0 0, 0 0;
+    animation: neuralFloat 25s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes neuralFloat {
+    0%, 100% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(30px, -30px);
+        opacity: 0.8;
+    }
+}
+
+/* Digital Data Stream - Code & Learning Elements */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        /* Binary code effect */
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(34, 211, 238, 0.03) 2px,
+            rgba(34, 211, 238, 0.03) 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(96, 165, 250, 0.03) 2px,
+            rgba(96, 165, 250, 0.03) 4px
+        ),
+        /* Hexagonal grid - AI/Tech pattern */
+        radial-gradient(circle at 30% 40%, rgba(124, 58, 237, 0.08) 1px, transparent 1px),
+        radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+        /* Learning paths */
+        linear-gradient(135deg, transparent 45%, rgba(167, 139, 250, 0.02) 48%, rgba(167, 139, 250, 0.02) 52%, transparent 55%);
+    background-size: 20px 20px, 20px 20px, 80px 80px, 100px 100px, 200px 200px;
+    animation: dataStream 40s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+}
+
+@keyframes dataStream {
+    0% {
+        background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+    }
+    100% {
+        background-position: 0 100px, 100px 0, 50px 50px, -50px 50px, 200px 200px;
+    }
+}
+
+/* Pulsing glow effect - Knowledge nodes */
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body::before {
+        background-size: 250px 250px, 280px 280px, 230px 230px, 270px 270px, 240px 240px, 290px 290px, 260px 260px, 40px 40px, 40px 40px;
+    }
+
+    body::after {
+        background-size: 15px 15px, 15px 15px, 60px 60px, 80px 80px, 150px 150px;
+        animation: dataStream 50s linear infinite;
+    }
+}
+
+@media (max-width: 480px) {
+    body::before {
+        background-size: 200px 200px, 220px 220px, 180px 180px, 210px 210px, 190px 190px, 230px 230px, 200px 200px, 30px 30px, 30px 30px;
+        animation: neuralFloat 30s ease-in-out infinite;
+    }
+
+    body::after {
+        background-size: 12px 12px, 12px 12px, 50px 50px, 60px 60px, 120px 120px;
+        animation: dataStream 60s linear infinite;
+    }
+
+    body {
+        animation: gradientShift 20s ease infinite;
+    }
+}
+
 .icon{
     width: 10em;
 }
@@ -31,7 +199,15 @@ body {
     font-weight: 300;
     font-size: 2.2rem;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+/* Ensure content is above animated background */
+body > *:not(body::before):not(body::after) {
+    position: relative;
+    z-index: 1;
   }
   
   #clock h1{
@@ -313,10 +489,10 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   display: block;
 }
 .wallet-bg{
-  background-image: url("images/wallet\ bg.png");
+  /* background-image: url("images/wallet\ bg.png");
   background-position: center;
   background-size: cover;
-  background-attachment: fixed;
+  background-attachment: fixed; */
 }
 
 /* EB MODELS */
@@ -354,7 +530,7 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 
-/* Glassmorphism */
+/* Glassmorphism - Enhanced for dark background */
 
 .glassmorphism {
     background: rgba(255, 255, 255, 0.1);
@@ -362,5 +538,22 @@ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(6px);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.043);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.glassmorphism-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    background: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 0;
+    border: none;
 }

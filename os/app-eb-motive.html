@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EB Inspire</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="icon" href="images/icon.png" type="image/logo">
+    <link rel="stylesheet" href="fontawesome-free-6.7.2-web/css/all.min.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    
+    <!-- Google Fonts for Premium Feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            /* Background handled by style2.css */
+            color: #ffffff;
+        }
+
+        /* --- Transitions & Animations --- */
+        .section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            padding-top: 100px; /* Space for header */
+            min-height: 100vh;
+        }
+
+        .section.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Components --- */
+        
+        .premium-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg);
+            pointer-events: none;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #b3b3b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-premium {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.6);
+            color: white;
+        }
+
+        .btn-premium:active {
+            transform: scale(0.98);
+        }
+
+        .input-premium {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px 20px;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .input-premium:focus {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: #a855f7;
+            outline: none;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+        }
+
+        .input-premium::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+        /* --- Quiz Styles --- */
+        .option-container {
+            display: grid;
+            gap: 15px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 18px 25px;
+            border-radius: 18px;
+            color: white;
+            text-align: left;
+            font-size: 1.1rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0; 
+            animation: slideInFade 0.5s ease forwards;
+        }
+
+        @keyframes slideInFade {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .option-btn:active {
+            transform: scale(0.96) translateX(5px);
+            background: rgba(168, 85, 247, 0.4);
+            border-color: #a855f7;
+        }
+
+        /* --- Chat Styles --- */
+        .ai-message {
+            background: rgba(168, 85, 247, 0.15);
+            border-left: 4px solid #a855f7;
+            padding: 15px;
+            border-radius: 0 15px 15px 10px;
+            margin-bottom: 15px;
+            animation: fadeInMessage 0.5s ease;
+        }
+
+        @keyframes fadeInMessage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Utility --- */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 50%;
+            width: 40px; text-align: center; line-height: 38px; height: 40px;
+            padding: 0;
+            transition: all 0.3s;
+        }
+        .back-btn:hover { background: white; color: black; }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="fixed-top glassmorphism">
+            <h4 class="text-white p-1 mx-4" style="line-height: normal; display: flex; align-items: center;">
+                <a id="tap" class="text-white tap me-3" href="app-eb-vaulter.html" style="text-decoration: none;">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a> 
+                EB Inspire
+            </h4>
+        </nav>
+    </header>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- 1. NAME Section -->
+    <div id="nameSection" class="section active">
+        <div class="premium-card">
+            <div class="mb-4">
+                <i class="fa-solid fa-user-astronaut fa-3x" style="color: #a855f7;"></i>
+            </div>
+            <h1>Hello There!</h1>
+            <p class="mb-4 text-white-50">I'd love to know who I'm chatting with.</p>
+            
+            <input type="text" id="userName" class="input-premium" placeholder="What's your name?" autocomplete="off">
+            
+            <button onclick="goToAge()" class="btn-premium">
+                Continue <i class="fa-solid fa-arrow-right ms-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. AGE Section -->
+    <div id="ageSection" class="section">
+        <div class="premium-card">
+            <button onclick="goBack('nameSection')" class="back-btn"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="mb-4">
+                <i class="fa-solid fa-cake-candles fa-3x" style="color: #a855f7;"></i>
+            </div>
+            <h2>Welcome, <span id="displayName" style="color: #a855f7;">Friend</span>!</h2>
+            <p class="mb-4 text-white-50">Just one more thing to personalize your experience.</p>
+            
+            <input type="number" id="userAge" class="input-premium" placeholder="How old are you?" min="5" max="30">
+            
+            <button onclick="startQuiz()" class="btn-premium">
+                Let's Start <i class="fa-solid fa-rocket ms-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 3. QUIZ Section -->
+    <div id="quizSection" class="section">
+        <div class="premium-card" style="max-width: 700px;">
+            <div class="progress-container">
+                <div id="progressBar" class="progress-fill"></div>
+            </div>
+            
+            <h3 id="questionText" style="min-height: 60px; font-weight: 500;">...</h3>
+            
+            <div id="optionsContainer" class="option-container">
+                <!-- Options here -->
+            </div>
+
+            <p class="mt-4 text-white-50 small">Question <span id="currentQNum">1</span> of 10</p>
+        </div>
+    </div>
+
+    <!-- 4. CHAT Section -->
+    <div id="chatSection" class="section">
+        <div class="premium-card" style="max-width: 800px; display: flex; flex-direction: column; height: 80vh;">
+            <div class="text-center mb-2 flex-shrink-0">
+                <div class="spinner-grow text-primary" role="status" style="width: 1rem; height: 1rem;"></div>
+                <span class="ms-2">Edu Bot AI</span>
+            </div>
+            
+            <!-- Chat Window -->
+            <div id="chatWindow" class="flex-grow-1" style="overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 15px; padding: 15px; margin-bottom: 15px;">
+                <div id="aiLoader" class="text-center mt-5">
+                    <div class="spinner-border text-light" role="status"></div>
+                    <p class="mt-3 text-white-50">Thinking...</p>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-group mb-3 flex-shrink-0">
+                <input type="text" id="chatInput" class="form-control input-premium mb-0 text-start" placeholder="Type a message..." style="border-radius: 15px 0 0 15px; margin: 0;">
+                <button onclick="startVoice()" class="btn btn-secondary" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1);"><i id="micIcon" class="fa-solid fa-microphone"></i></button>
+                <button onclick="sendUserMessage()" class="btn btn-premium" style="border-radius: 0 15px 15px 0; padding: 0 25px;"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+
+            <button onclick="endSession()" class="btn btn-danger rounded-pill px-4 mt-2 flex-shrink-0 align-self-center">
+                 End Chat
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="bootstrap.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        // --- Config ---
+        const API_KEY = 'AIzaSyDDIQYvhmcWypTLBvLpbYvDCTSI2wgajow';
+        const MODEL_NAME = 'gemini-2.5-flash-lite'; 
+        
+        // --- State ---
+        let userData = { name: '', age: '', answers: [] };
+        let currentQIndex = 0;
+        let chatHistory = [];
+        
+        // --- Audio ---
+        const clickSound = new Audio('images/effect.mp3'); 
+        const bgMusic = new Audio('images/music.mp3');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.3; 
+        clickSound.load();
+        
+        function playTouchSound() {
+            const sound = clickSound.cloneNode();
+            sound.volume = 1.0;
+            sound.play().catch(e => console.log("Audio play blocked", e));
+        }
+
+        window.onload = () => document.getElementById('preloader').style.display = 'none';
+
+        // --- Navigation ---
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            setTimeout(() => { document.getElementById(id).classList.add('active'); }, 100);
+        }
+
+        function goBack(id) { playTouchSound(); showSection(id); }
+
+        function goToAge() {
+            playTouchSound();
+            const val = document.getElementById('userName').value.trim();
+            if(!val) { alert("Please tell me your name!"); return; }
+            userData.name = val;
+            document.getElementById('displayName').innerText = val;
+            showSection('ageSection');
+        }
+
+        function startQuiz() {
+            playTouchSound();
+            const val = document.getElementById('userAge').value.trim();
+            if(!val) { alert("Please tell me your age!"); return; }
+            userData.age = val;
+            try { bgMusic.play().catch(e => {}); } catch(e){}
+            showSection('quizSection');
+            renderQuestion();
+        }
+
+        // --- Quiz Logic ---
+        const questions = [
+            { id: 1, text: "How do you usually feel when you wake up for school?", options: ["😄 Happy and excited", "🙂 Okay", "😐 Not very excited", "😞 I don’t feel good"] },
+            { id: 2, text: "How easy is it for you to pay attention in class?", options: ["🎯 Very easy", "🙂 Mostly easy", "😕 Sometimes hard", "😵 Very hard"] },
+            { id: 3, text: "How do you feel about your studies?", options: ["📚 I enjoy learning", "🙂 It’s okay", "😕 A bit difficult", "😣 Very difficult"] },
+            { id: 4, text: "How is your sleep at night?", options: ["😴 I sleep very well", "🙂 Mostly good", "😕 Not so good", "😫 I don’t sleep well"] },
+            { id: 5, text: "How do you feel when doing homework?", options: ["💪 I do it happily", "🙂 I manage", "😕 I struggle sometimes", "😩 I feel stressed"] },
+            { id: 6, text: "How often do you feel confident answering questions in class?", options: ["🙋‍♂️ Very confident", "🙂 Sometimes confident", "😕 Rarely", "😶 I feel scared"] },
+            { id: 7, text: "How do you feel when you make a mistake?", options: ["🌱 I learn and try again", "🙂 I feel okay", "😟 I feel upset", "😣 I feel very sad"] },
+            { id: 8, text: "How much do you enjoy playing or spending time with friends?", options: ["😄 I enjoy a lot", "🙂 Sometimes", "😕 Rarely", "😞 I don’t enjoy much"] },
+            { id: 9, text: "When you feel worried, what do you usually do?", options: ["🗣️ Talk to someone", "🙂 Try to relax", "😕 Keep it to myself", "😢 Feel very worried"] },
+            { id: 10, text: "How do you feel about yourself?", options: ["🌟 I like myself", "🙂 I’m okay", "😕 Not sure", "😞 I feel bad about myself"] }
+        ];
+
+        function renderQuestion() {
+            if(currentQIndex >= questions.length) { finishQuiz(); return; }
+            const q = questions[currentQIndex];
+            document.getElementById('questionText').innerText = q.text;
+            document.getElementById('currentQNum').innerText = currentQIndex + 1;
+            document.getElementById('progressBar').style.width = ((currentQIndex) / questions.length * 100) + '%';
+            speak(q.text);
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-btn';
+                btn.style.animationDelay = `${idx * 0.1}s`;
+                btn.innerHTML = `<span>${opt}</span>`;
+                btn.onclick = () => handleAnswer(opt);
+                container.appendChild(btn);
+            });
+        }
+        
+        function handleAnswer(answer) {
+            playTouchSound();
+            userData.answers.push({ q: questions[currentQIndex].text, a: answer });
+            currentQIndex++;
+            renderQuestion();
+        }
+
+        function finishQuiz() {
+            document.getElementById('progressBar').style.width = '100%';
+            showSection('chatSection');
+            initChat();
+        }
+
+        // --- Chat Logic ---
+        function appendMessage(sender, text, isUser = false) {
+            const chatWin = document.getElementById('chatWindow');
+            const msgDiv = document.createElement('div');
+            if (isUser) {
+                msgDiv.className = 'text-end mb-3';
+                msgDiv.innerHTML = `<span style="background: var(--primary-gradient); padding: 10px 15px; border-radius: 15px 15px 0 15px; display: inline-block;">${text}</span>`;
+            } else {
+                msgDiv.className = 'ai-message text-start';
+                msgDiv.innerHTML = `<strong>${sender}:</strong><br>${text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')}`;
+            }
+            chatWin.appendChild(msgDiv);
+            chatWin.scrollTop = chatWin.scrollHeight;
+        }
+
+        async function initChat() {
+            const initialPrompt = `
+                Role: Edu Bot AI, a caring, motivating older sister/mentor.
+                User: ${userData.name}, ${userData.age} years old.
+                Quiz Answers: ${JSON.stringify(userData.answers)}
+                Task: Write a short, heartwarming message. Acknowledge feelings, give 1 simple tip, and a motivating quote. Max 100 words.
+            `;
+            await callGemini(initialPrompt, true);
+        }
+
+        async function sendUserMessage() {
+            playTouchSound();
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if(!text) return;
+            appendMessage("You", text, true);
+            input.value = '';
+            await callGemini(`User said: "${text}". Reply as Edu Bot AI.`, false);
+        }
+
+        async function callGemini(promptText, isFirst = false) {
+            if(isFirst) {
+                chatHistory = [{ role: "user", parts: [{ text: promptText }] }];
+            } else {
+                chatHistory.push({ role: "user", parts: [{ text: promptText }] });
+                const chatWin = document.getElementById('chatWindow');
+                if(!document.getElementById('userLoader')) {
+                     const l = document.createElement('div'); l.id = 'userLoader'; l.className = 'text-center text-white-50 mt-2'; l.innerHTML = '<small>Typing...</small>';
+                     chatWin.appendChild(l);
+                     chatWin.scrollTop = chatWin.scrollHeight;
+                }
+            }
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contents: chatHistory })
+                });
+                const data = await res.json();
+                const loader = document.getElementById('aiLoader'); if(loader) loader.remove();
+                const uLoader = document.getElementById('userLoader'); if(uLoader) uLoader.remove();
+                if(data.error) throw new Error(data.error.message);
+                const aiText = data.candidates[0].content.parts[0].text;
+                chatHistory.push({ role: "model", parts: [{ text: aiText }] });
+                appendMessage("Edu Bot", aiText, false);
+                speak(aiText);
+            } catch(e) {
+                console.error(e);
+                const uLoader = document.getElementById('userLoader'); if(uLoader) uLoader.innerHTML = "<small class='text-danger'>Error.</small>";
+                const loader = document.getElementById('aiLoader'); if(loader) loader.innerHTML = "<p class='text-danger'>Connection Error. Try Again.</p>";
+            }
+        }
+
+        function speak(text) {
+            window.speechSynthesis.cancel();
+            const utt = new SpeechSynthesisUtterance(text.replace(/[*#]/g, ''));
+            const voices = window.speechSynthesis.getVoices();
+            const female = voices.find(v => v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google US English'));
+            if(female) utt.voice = female;
+            utt.rate = 1.0; utt.pitch = 1.1;
+            window.speechSynthesis.speak(utt);
+        }
+
+        function startVoice() {
+            playTouchSound();
+            if(!('webkitSpeechRecognition' in window)) { alert("Voice not supported."); return; }
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.start();
+            const micIcon = document.getElementById('micIcon');
+            micIcon.classList.replace('fa-microphone', 'fa-spinner');
+            recognition.onresult = function(event) {
+                document.getElementById('chatInput').value = event.results[0][0].transcript;
+                micIcon.classList.replace('fa-spinner', 'fa-microphone');
+            };
+            recognition.onerror = function() { micIcon.classList.replace('fa-spinner', 'fa-microphone'); };
+        }
+
+        function endSession() {
+            playTouchSound();
+            window.speechSynthesis.cancel();
+            bgMusic.pause();
+            location.reload(); 
+        }
+
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Edu Bot Kids +</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="icon" href="images/icon.png" type="image/logo">
+    <link rel="stylesheet" href="fontawesome-free-6.7.2-web/css/all.min.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <style>
+        /* Custom Styles for Kids Mode */
+        #stop-btn {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: none; /* Hidden by default */
+            font-size: 1.5rem;
+            padding: 15px 40px;
+            border-radius: 50px;
+            background-color: #dc3545; /* Bootstrap danger color */
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        #stop-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        /* Adjust start screen for navbar */
+        #start-screen {
+            padding-top: 80px; 
+            background: rgba(0,0,0,0.4); 
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="fixed-top glassmorphism">
+            <h4 class="text-white p-1 mx-4" style="line-height: normal; display: flex; align-items: center;">
+                <a id="tap" class="text-white tap me-3" href="app-eb-vaulter.html" style="text-decoration: none;">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a> 
+                Edu Bot Kids + 
+            </h4>
+        </nav>
+    </header>
+
+    <!-- Start Section -->
+    <div id="start-screen" class="active d-flex flex-column justify-content-center align-items-center vh-100 text-center text-white">
+        
+        <h1 class="brand mb-4 text-warning" style="font-size: 4rem;">Edu Bot Kids +</h1>
+        
+        <div class="card bg-transparent border-0 p-4" style="max-width: 600px;">
+            <p class="h3 mb-5 fw-bold text-white" style="font-family: 'Poppins', sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                "I will listen for crying sounds and play a soothing video to help."
+            </p>
+            
+            <button id="start-btn" class="btn btn-warning btn-lg rounded-pill px-5 py-3 fw-bold touchSound shadow-lg" style="font-size: 1.5rem; transition: transform 0.2s;">
+                <i class="fa-solid fa-play me-2"></i> Start Mode
+            </button>
+        </div>
+        
+        <div id="loader" class="mt-4" style="display:none;">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="mt-2">Initializing AI...</div>
+        </div>
+    </div>
+
+    <!-- Video Container -->
+    <div id="video-container">
+        <video id="video-player" playsinline style="width: 100%; height: 100vh; object-fit: cover;"></video>
+        
+        <!-- Stop Button (Visible only during Cat Video) -->
+        <button id="stop-btn" class="touchSound">
+            <i class="fa-solid fa-stop me-2"></i>Stop
+        </button>
+        
+        <div id="status-debug" style="position: absolute; bottom: 10px; right: 10px; color:white; display:none;"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../js/bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+    
+    <!-- Main Logic -->
+    <script src="script.js"></script>
+
+</body>
+</html>
+
+
+<script>
+// Configuration
+const URL_MODEL = "https://teachablemachine.withgoogle.com/models/PszFBY61d/";
+const THINGSPEAK_URL = "https://api.thingspeak.com/update?api_key=WFU6A74HL6ZVJS4C&field1=";
+
+let recognizer;
+let isRunning = false;
+let currentVideo = null; // Initialize as null to ensure first play works
+
+// DOM Elements
+const startScreen = document.getElementById('start-screen');
+const videoContainer = document.getElementById('video-container');
+const videoPlayer = document.getElementById('video-player');
+const loader = document.getElementById('loader');
+const statusDebug = document.getElementById('status-debug');
+const stopBtn = document.getElementById('stop-btn');
+
+// ThingSpeak Helper
+function sendToThingSpeak(value) {
+    console.log(`Sending to ThingSpeak: ${value}`);
+    fetch(`${THINGSPEAK_URL}${value}`)
+        .then(response => response.text())
+        .then(data => {
+            console.log('ThingSpeak Response:', data);
+            if (data == "0") {
+                console.log("ThingSpeak rate limit hit. Retrying in 15s...");
+                setTimeout(() => sendToThingSpeak(value), 15000);
+            }
+        })
+        .catch(err => console.error('ThingSpeak Error:', err));
+}
+
+// Load Model
+async function loadModel() {
+    try {
+        const checkpointURL = URL_MODEL + "model.json"; // model topology
+        const metadataURL = URL_MODEL + "metadata.json"; // model metadata
+
+        recognizer = speechCommands.create(
+            "BROWSER_FFT", 
+            undefined, 
+            checkpointURL, 
+            metadataURL
+        );
+
+        await recognizer.ensureModelLoaded();
+        console.log("Model Loaded");
+        return true;
+    } catch (e) {
+        console.error("Failed to load model", e);
+        alert("Failed to load AI Model. Check connection.");
+        return false;
+    }
+}
+
+// Start Application
+async function startApp() {
+    loader.style.display = 'block';
+    document.getElementById('start-btn').style.display = 'none'; // Hide start button during load
+    
+    // Initialize Model if not ready
+    if (!recognizer) {
+        const success = await loadModel();
+        if (!success) {
+            loader.style.display = 'none';
+            document.getElementById('start-btn').style.display = 'inline-block';
+            return;
+        }
+    }
+
+    // UI Transition
+    startScreen.style.display = 'none'; // Hide Start Screen
+    startScreen.classList.remove('d-flex'); // Remove flex to ensure it hides
+    videoContainer.style.display = 'block';
+    
+    loader.style.display = 'none';
+    document.getElementById('start-btn').style.display = 'inline-block';
+    
+    // Start Logic
+    isRunning = true;
+    
+    playFish(); // Default start
+    startListening();
+}
+
+// Stop Application
+function stopApp() {
+    isRunning = false;
+    currentVideo = null; // Reset video state
+    
+    // Stop Video
+    videoPlayer.pause();
+    videoPlayer.src = "";
+    
+    // Stop Listening
+    if (recognizer) {
+        recognizer.stopListening();
+    }
+
+    // ThingSpeak: Value = 1 (Stop Clicked)
+    sendToThingSpeak(1);
+
+    // Hide Stop Button
+    stopBtn.style.display = 'none';
+
+    // Ui Transition
+    videoContainer.style.display = 'none';
+    startScreen.style.display = 'flex'; // Show Start Screen as Flex
+    startScreen.classList.add('d-flex');
+}
+
+// Video Control
+function playFish() {
+    if (currentVideo === 'fish' && isRunning) return; // Already playing
+    
+    console.log("Playing Fish");
+    
+    // Ensure Stop Button is HIDDEN during Fish video
+    stopBtn.style.display = 'none';
+    
+    // ThingSpeak: Value = 2 (Start / Fish Playing)
+    sendToThingSpeak(2);
+    
+    currentVideo = 'fish';
+    videoPlayer.src = "images/fish.mp4"; // Updated path
+    videoPlayer.muted = true;
+    videoPlayer.loop = true;
+    videoPlayer.play().catch(e => console.log("Play error", e));
+}
+
+function playCat() {
+    if (currentVideo === 'cat') return; // Already playing
+
+    console.log("Playing Cat");
+
+    // Stop listening to mic when cat video plays
+    if (recognizer) {
+        recognizer.stopListening();
+    }
+    
+    // Ensure Stop Button is VISIBLE during Cat video
+    stopBtn.style.display = 'block';
+    
+    // ThingSpeak: Value = 3 (Cat Playing / Crying Detected)
+    sendToThingSpeak(3);
+    
+    currentVideo = 'cat';
+    videoPlayer.src = "images/cat.mp4"; // Updated path
+    videoPlayer.muted = false; // Unmute for cat
+    videoPlayer.loop = true;
+    videoPlayer.play().catch(e => console.log("Play error", e));
+}
+
+// Audio Listening Logic
+function startListening() {
+    const classLabels = recognizer.wordLabels(); // get class labels
+    
+    recognizer.listen(result => {
+        if (!isRunning) return;
+
+        const scores = result.scores; // probability array
+        let cryScore = 0;
+        
+        for (let i = 0; i < classLabels.length; i++) {
+            const label = classLabels[i].toLowerCase();
+            const score = result.scores[i];
+            
+            // Debug
+            if (statusDebug) statusDebug.innerHTML += `${label}: ${score.toFixed(2)}<br>`;
+
+            if (label.includes('cry') || label.includes('kid')) {
+                cryScore = score;
+            }
+        }
+        
+        // Threshold Check
+        if (cryScore > 0.90) {
+            playCat();
+        } 
+        // Note: We don't automatically switch back to Fish. Stop button resets everything.
+
+    }, {
+        includeSpectrogram: false,
+        probabilityThreshold: 0.75,
+        invokeCallbackOnNoiseAndUnknown: true,
+        overlapFactor: 0.50 
+    });
+}
+
+// Event Listeners
+document.getElementById('start-btn').addEventListener('click', startApp);
+stopBtn.addEventListener('click', stopApp);
+
+</script>
+<script src="script.js"></script>

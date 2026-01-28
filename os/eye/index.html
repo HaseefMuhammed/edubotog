@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Dr. Zoe Eye - AI Health Monitor">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Edu Bot Eye</title>
+    <!-- Icon -->
+    <link rel="icon" href="../images/icon.png" type="image/png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* --- GLOBAL & UTILS --- */
+        body {
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            touch-action: none;
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- SPLASH SCREEN --- */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        #splashScreen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .splash-text {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .hidden-mode {
+            display: none !important;
+        }
+        /* ... rest of existing styles ... */
+        /* --- MODE 2 (SQUARE FACE) STYLES --- */
+        :root {
+            --bg-color: #000000; 
+            --feature-color: #ffffff;
+            --accent-glow: rgba(255, 255, 255, 0.25);
+        }
+
+        #domFaceWrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10; 
+        }
+
+        .face-container {
+            position: relative;
+            width: 85vw;
+            max-width: 550px;
+            aspect-ratio: 1.3/1; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; 
+            animation: breathe-float 6s ease-in-out infinite;
+        }
+
+        .eyes-wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 85%;
+            height: 55%;
+        }
+
+        .eye {
+            position: relative;
+            width: 42%;
+            height: 100%;
+            background-color: var(--feature-color);
+            border-radius: 40px; 
+            box-shadow: 0 0 60px var(--accent-glow);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .pupil {
+            position: relative;
+            width: 55%;
+            height: 55%;
+            background-color: var(--bg-color);
+            border-radius: 18px; 
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .pupil::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            right: 15%;
+            width: 25%;
+            height: 25%;
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 50%;
+        }
+
+        .eyelid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background-color: var(--bg-color);
+            transition: height 0.1s ease-in-out;
+            z-index: 10;
+        }
+
+        @keyframes breathe-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* --- CANVAS STYLES (Mode 1 & 3) --- */
+        #faceCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+
+        /* --- UI ELEMENTS --- */
+        .ui-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        #installButton {
+            display: none;
+            background: #fff;
+            color: #000;
+            width: auto;
+            padding: 0 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        #installButton.visible { display: flex; }
+
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 350px;
+            z-index: 999;
+            color: #fff;
+            display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+        .install-prompt.show { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .install-prompt-buttons { display: flex; gap: 10px; margin-top: 15px; }
+        .install-prompt-btn { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+        .install-prompt-btn.install { background: #fff; color: #000; }
+        .install-prompt-btn.dismiss { background: rgba(255,255,255,0.1); color: #fff; }
+
+        .status-pill {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #444;
+            font-size: 10px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splashScreen">
+        <img src="../images/icon.png" alt="Edu Bot Eye" class="splash-logo">
+        <div class="splash-text">Edu Bot Eye</div>
+    </div>
+
+    <!-- UI Buttons -->
+    <div class="ui-buttons">
+        <button id="installButton" class="icon-btn">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Install
+        </button>
+        <button id="fullscreenBtn" class="icon-btn">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+        </button>
+    </div>
+
+    <!-- PWA Prompt -->
+    <div class="install-prompt" id="installPrompt">
+        <h3 class="font-bold mb-2">📥 Install Dr. Zoe Eye</h3>
+        <p class="text-sm text-gray-400">Get quick access to your eye health monitor.</p>
+        <div class="install-prompt-buttons">
+            <button class="install-prompt-btn install" onclick="triggerInstall()">Install</button>
+            <button class="install-prompt-btn dismiss" onclick="dismissInstall()">Later</button>
+        </div>
+    </div>
+
+    <!-- MODE 2: DOM SQUARE FACE (Now Mode 2) -->
+    <div id="domFaceWrapper" class="hidden-mode">
+        <div class="face-container" id="face">
+            <div class="eyes-wrapper">
+                <div class="eye" id="eye-left">
+                    <div class="eyelid"></div>
+                    <div class="pupil"></div>
+                </div>
+                <div class="eye" id="eye-right">
+                    <div class="eyelid"></div>
+                    <div class="pupil"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODE 1 & 3: CANVAS FACE -->
+    <canvas id="faceCanvas"></canvas>
+    
+    <div class="status-pill" id="statusPill">Connecting...</div>
+
+    <script>
+        /* =========================================
+           CONFIG & STATE
+           ========================================= */
+        const TS_CHANNEL_ID = '3242477';
+        const TS_READ_KEY = 'TDQ973YVY750F40H';
+        const POLL_INTERVAL = 3000;
+
+        // MAPPING: 1=Round(Canvas), 2=Box(DOM), 3=Love(Canvas)
+        let currentMode = 1; 
+        let width, height, scale, centerX, centerY;
+        
+        const canvas = document.getElementById('faceCanvas');
+        const ctx = canvas.getContext('2d');
+        const domFaceWrapper = document.getElementById('domFaceWrapper');
+        const statusPill = document.getElementById('statusPill');
+
+        /* =========================================
+           RESIZE LOGIC
+           ========================================= */
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            centerX = width / 2;
+            centerY = height / 2;
+            scale = Math.min(width, height) / 350; 
+        }
+        window.addEventListener('resize', resize);
+        window.addEventListener('orientationchange', () => setTimeout(resize, 200));
+        resize();
+
+        // Remove splash screen after load
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('splashScreen');
+            setTimeout(() => {
+                splash.classList.add('fade-out');
+                setTimeout(() => splash.remove(), 500);
+            }, 1000); // 1s delay for branding visibility
+        });
+
+        /* =========================================
+           THINGSPEAK SYNC
+           ========================================= */
+        async function fetchThingSpeakData() {
+            const url = `https://api.thingspeak.com/channels/${TS_CHANNEL_ID}/feeds/last.json?api_key=${TS_READ_KEY}`;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network error');
+                const data = await response.json();
+                const val = parseInt(data.field1);
+                
+                if (!isNaN(val) && (val >= 1 && val <= 3)) {
+                    if (currentMode !== val) {
+                        currentMode = val;
+                        handleModeSwitch(val);
+                    }
+                    
+                    let modeName = "Unknown";
+                    if(val === 1) modeName = "Round";
+                    if(val === 2) modeName = "Box";
+                    if(val === 3) modeName = "Love";
+                    
+                    statusPill.innerText = `Mode: ${modeName}`;
+                }
+            } catch (error) {
+                // statusPill.innerText = "Offline";
+            }
+        }
+
+        function handleModeSwitch(newMode) {
+            // If newMode is 2, we use DOM (Box). Otherwise Canvas (1=Round, 3=Love)
+            if (newMode === 2) {
+                domFaceWrapper.classList.remove('hidden-mode');
+                canvas.classList.add('hidden-mode');
+            } else {
+                domFaceWrapper.classList.add('hidden-mode');
+                canvas.classList.remove('hidden-mode');
+                // Clean particles if switching away from 3
+                if (newMode !== 3) cuteState.particles = [];
+            }
+        }
+
+        setInterval(fetchThingSpeakData, POLL_INTERVAL);
+        fetchThingSpeakData();
+
+        /* =========================================
+           MODE 2: DOM SQUARE EYES ANIMATION (Box)
+           ========================================= */
+        const eyelids = document.querySelectorAll('.eyelid');
+        const pupils = document.querySelectorAll('.pupil');
+        
+        const blinkMin = 3000;
+        const blinkMax = 7000;
+        const moveMin = 2000;
+        const moveMax = 5000;
+
+        function domFaceBlink() {
+            // Run only if Mode 2 (Box)
+            if (currentMode === 2) {
+                eyelids.forEach(lid => lid.style.height = '100%');
+                setTimeout(() => {
+                    eyelids.forEach(lid => lid.style.height = '0%');
+                }, 200);
+            }
+            setTimeout(domFaceBlink, Math.random() * (blinkMax - blinkMin) + blinkMin);
+        }
+
+        function domFaceMove() {
+            // Run only if Mode 2 (Box)
+            if (currentMode === 2) {
+                const x = (Math.random() * 40) - 20; 
+                const y = (Math.random() * 20) - 10;
+                pupils.forEach(pupil => {
+                    pupil.style.transform = `translate(${x}%, ${y}%)`;
+                });
+            }
+            setTimeout(domFaceMove, Math.random() * (moveMax - moveMin) + moveMin);
+        }
+
+        domFaceBlink();
+        domFaceMove();
+
+        /* =========================================
+           MODE 1 & 3: CANVAS RENDERER (Round & Love)
+           ========================================= */
+        const cuteState = {
+            particles: [],
+            isBlinking: false,
+            blinkProgress: 0
+        };
+
+        class Particle {
+            constructor(x, y, scale) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 10 * scale + 5 * scale;
+                this.speedY = Math.random() * 2 * scale + 1 * scale;
+                this.wobble = Math.random() * Math.PI * 2;
+                this.life = 1.0;
+                this.type = Math.random() > 0.5 ? 'heart' : 'bubble';
+                this.color = `hsl(${Math.random() * 60 + 300}, 100%, 75%)`;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.wobble) * 2;
+                this.wobble += 0.1;
+                this.life -= 0.01;
+            }
+            draw(ctx) {
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                if (this.type === 'heart') {
+                    const size = this.size;
+                    ctx.beginPath();
+                    const topCurveHeight = size * 0.3;
+                    ctx.moveTo(this.x, this.y + topCurveHeight);
+                    ctx.bezierCurveTo(this.x, this.y, this.x - size / 2, this.y, this.x - size / 2, this.y + topCurveHeight);
+                    ctx.bezierCurveTo(this.x - size / 2, this.y + (size + topCurveHeight) / 2, this.x, this.y + (size + topCurveHeight) / 2, this.x, this.y + size);
+                    ctx.bezierCurveTo(this.x, this.y + (size + topCurveHeight) / 2, this.x + size / 2, this.y + (size + topCurveHeight) / 2, this.x + size / 2, this.y + topCurveHeight);
+                    ctx.bezierCurveTo(this.x + size / 2, this.y, this.x, this.y, this.x, this.y + topCurveHeight);
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size/2, 0, Math.PI*2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        let globalTime = 0;
+
+        function updateCuteLogic() {
+            if (cuteState.isBlinking) {
+                cuteState.blinkProgress += 0.08; 
+                if (cuteState.blinkProgress >= 1) {
+                    cuteState.isBlinking = false;
+                    cuteState.blinkProgress = 0;
+                }
+            } else {
+                // Adjust blink probability based on mode
+                // Mode 1 (Round): Very low probability (0.002)
+                // Mode 3 (Love): Standard probability (0.01)
+                const blinkChance = (currentMode === 1) ? 0.002 : 0.01;
+                
+                if (Math.random() < blinkChance) cuteState.isBlinking = true;
+            }
+
+            if (currentMode === 3) {
+                if (Math.random() < 0.1) {
+                    cuteState.particles.push(new Particle(Math.random() * width, height + 50, scale));
+                }
+                for (let i = cuteState.particles.length - 1; i >= 0; i--) {
+                    cuteState.particles[i].update();
+                    if (cuteState.particles[i].life <= 0) cuteState.particles.splice(i, 1);
+                }
+            }
+        }
+
+        function drawRoundEye(x, y, w, h, side) {
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            if (h < 5 * scale) {
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 4 * scale;
+                ctx.moveTo(x - w, y);
+                ctx.lineTo(x + w, y);
+                ctx.stroke();
+                return;
+            }
+            ctx.ellipse(x, y, w, h, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            const pupilSize = w * 0.6;
+            const lookX = side * -5 * scale + Math.sin(globalTime) * 5 * scale;
+            
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.ellipse(x + lookX, y, pupilSize, pupilSize * (h/w), 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (h > 30 * scale) {
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(x + lookX + pupilSize*0.35, y - pupilSize*0.35, pupilSize*0.25, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawLoveEye(x, y, w, h) {
+            ctx.lineWidth = 12 * scale;
+            ctx.strokeStyle = '#ffffff';
+            ctx.beginPath();
+            if (h < 20 * scale) {
+                ctx.moveTo(x - w/1.2, y);
+                ctx.lineTo(x + w/1.2, y);
+            } else {
+                ctx.arc(x, y + (20*scale), w/1.2, Math.PI * 1.1, Math.PI * 1.9);
+            }
+            ctx.stroke();
+        }
+
+        function animateCanvas() {
+            // Stop if Mode 2 (Box) is active
+            if (currentMode === 2) {
+                requestAnimationFrame(animateCanvas);
+                return;
+            }
+
+            ctx.clearRect(0, 0, width, height);
+            globalTime += (currentMode === 3) ? 0.08 : 0.05;
+
+            updateCuteLogic();
+
+            if (currentMode === 3) cuteState.particles.forEach(p => p.draw(ctx));
+
+            const hoverFreq = (currentMode === 3) ? 4 : 2;
+            const hoverAmp = (currentMode === 3) ? 15 : 8;
+            const hoverY = Math.sin(globalTime * hoverFreq) * hoverAmp * scale;
+
+            ctx.save();
+            ctx.translate(centerX, centerY + hoverY);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.shadowBlur = (currentMode === 3) ? 20 * scale : 15 * scale;
+            ctx.shadowColor = (currentMode === 3) ? 'rgba(255, 182, 193, 0.6)' : 'rgba(255, 255, 255, 0.5)';
+
+            const eyeW = 90 * scale; 
+            let eyeH = 90 * scale; 
+            const eyeOffsetX = 95 * scale;
+            const eyeOffsetY = 0; 
+
+            if (cuteState.isBlinking) {
+                eyeH *= (1 - Math.sin(cuteState.blinkProgress * Math.PI));
+            }
+
+            if (currentMode === 3) {
+                drawLoveEye(-eyeOffsetX, eyeOffsetY, eyeW, eyeH);
+                drawLoveEye(eyeOffsetX, eyeOffsetY, eyeW, eyeH);
+            } else {
+                // Mode 1: Round Eye
+                drawRoundEye(-eyeOffsetX, eyeOffsetY, eyeW, eyeH, -1);
+                drawRoundEye(eyeOffsetX, eyeOffsetY, eyeW, eyeH, 1);
+            }
+            ctx.restore();
+            
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        /* =========================================
+           INSTALLATION LOGIC
+           ========================================= */
+        let deferredPrompt;
+        const installBtn = document.getElementById('installButton');
+        const installPrompt = document.getElementById('installPrompt');
+        const fsBtn = document.getElementById('fullscreenBtn');
+
+        fsBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(console.log);
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Toggle button visibility based on fullscreen state
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                fsBtn.style.display = 'none';
+            } else {
+                fsBtn.style.display = 'flex';
+            }
+        });
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                installBtn.classList.add('visible');
+                setTimeout(() => installPrompt.classList.add('show'), 2000);
+            }
+        });
+
+        window.triggerInstall = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                if(outcome === 'accepted') dismissInstall();
+            }
+        };
+
+        window.dismissInstall = () => {
+            installPrompt.classList.remove('show');
+            installBtn.classList.remove('visible');
+        };
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('SW Registered!', reg))
+                .catch(err => console.log('SW Error:', err));
+        }
+    </script>
+</body>
+</html>

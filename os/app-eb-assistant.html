@@ -9,156 +9,617 @@
     <script src="https://kit.fontawesome.com/3945bc0b8d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="bootstrap.css">
     <style>
-      /* Standard clean UI styles */
+      /* Global UI scale variable: change --ui-scale between 0.7 and 1.3 to shrink/enlarge UI */
+      :root {
+        --ui-scale: 1;
+      }
+
+      /* Scale rem-based sizes by changing root font-size */
+      html {
+        font-size: calc(16px * var(--ui-scale));
+      }
+
+      /* Optimized Premium UI with Reduced Animations */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: linear-gradient(135deg,
+    #667eea 0%,
+    #764ba2 25%,
+    #f093fb 50%,
+    #4facfe 75%,
+    #00f2fe 100%);
+  background-size: 400% 400%;
+  /* Slower, less intensive animation */
+  animation: gradientShift 30s ease infinite;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  color: #1a202c;
+  position: relative;
+  overflow-x: hidden;
 }
-.glass-bg, .glass-reflection {
-  display: none !important;
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
+
+/* Simplified Background Elements - Reduced from 8 to 4 */
+.glass-bg {
+  display: block !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Override some fixed pixel sizes to respect the UI scale */
+.icon-glow {
+  width: calc(110px * var(--ui-scale)) !important;
+  height: calc(110px * var(--ui-scale)) !important;
+  padding: calc(1.2rem * var(--ui-scale)) !important;
+  border-width: calc(3px * var(--ui-scale)) !important;
+}
+
+body::before {
+  width: calc(600px * var(--ui-scale));
+  height: calc(600px * var(--ui-scale));
+  top: calc(-200px * var(--ui-scale));
+  right: calc(-200px * var(--ui-scale));
+}
+
+body::after {
+  width: calc(500px * var(--ui-scale));
+  height: calc(500px * var(--ui-scale));
+  bottom: calc(-150px * var(--ui-scale));
+  left: calc(-150px * var(--ui-scale));
+}
+
+/* Reduced floating elements - only 4 instead of 8 */
+.floating-element {
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.15;
+  /* Slower animation */
+  animation: float-random 25s infinite ease-in-out;
+  color: white;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  /* Improve performance */
+  will-change: transform;
+}
+
+.floating-element:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 22s; font-size: 3.5rem; }
+.floating-element:nth-child(2) { left: 80%; top: 30%; animation-delay: 3s; animation-duration: 26s; font-size: 2.8rem; }
+.floating-element:nth-child(3) { left: 50%; top: 50%; animation-delay: 6s; animation-duration: 24s; font-size: 3.2rem; }
+.floating-element:nth-child(4) { left: 20%; top: 70%; animation-delay: 2s; animation-duration: 23s; font-size: 2.5rem; }
+
+/* Simplified animation - less transformation */
+@keyframes float-random {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-50px) translateX(20px);
+    opacity: 0.2;
+  }
+}
+
+/* Simplified reflection - static instead of animated */
+.glass-reflection {
+  display: block !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+  /* Animation removed for better performance */
+}
+
+/* Simplified shape animations */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::before {
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 147, 251, 0.12) 0%, transparent 70%);
+  top: -200px;
+  right: -200px;
+  /* Slower animation */
+  animation: floatShape1 25s ease-in-out infinite;
+}
+
+body::after {
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79, 172, 254, 0.12) 0%, transparent 70%);
+  bottom: -150px;
+  left: -150px;
+  /* Slower animation */
+  animation: floatShape2 23s ease-in-out infinite;
+}
+
+@keyframes floatShape1 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-30px, 30px);
+  }
+}
+
+@keyframes floatShape2 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, -30px);
+  }
+}
+
+/* Main Container with Premium Glassmorphism */
 .container {
-  max-width: 600px;
-  margin: 70px auto 30px auto;
-  padding: 2.5rem 2rem 2rem 2rem;
-  border-radius: 1.2rem;
-  background: #fff;
-  box-shadow: 0 2px 16px 0 rgba(60,60,60,0.07);
+  max-width: 850px;
+  margin: 110px auto 50px auto;
+  padding: 3rem 3rem 3.5rem 3rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.25) 100%);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-shadow:
+    0 8px 32px rgba(31, 38, 135, 0.15),
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 20px rgba(255, 255, 255, 0.2);
   text-align: center;
   position: relative;
   z-index: 2;
-  border: 1px solid #e0e0e0;
-  transition: box-shadow 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
+
+/* Removed shimmer animation for better performance */
+
 .container:hover {
-  box-shadow: 0 4px 24px 0 rgba(60,60,60,0.10);
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 40px rgba(31, 38, 135, 0.18),
+    0 25px 70px rgba(0, 0, 0, 0.13),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 -2px 20px rgba(255, 255, 255, 0.3);
 }
+
+/* Navigation Bar with Premium Glassmorphism */
 nav.glassmorphism {
-  background: #fff !important;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 2px 8px 0 rgba(60,60,60,0.07);
-  border-radius: 0 0 1rem 1rem;
-  z-index: 10;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.18) 100%) !important;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+  border-radius: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
 }
+
+nav.glassmorphism::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%);
+}
+
 nav h4 {
   letter-spacing: 1px;
-  font-weight: 600;
-  font-size: 1.2rem;
-  color: #222;
-  text-shadow: none;
-}
-.icon-glow {
-  filter: none;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-  background: #f5f6fa;
-  padding: 0.5rem;
-  box-shadow: 0 1px 4px #e0e0e0;
-  animation: none;
-}
-h1 {
-  font-family: 'Oswald', 'Arial', sans-serif;
-  font-size: 2rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  color: #222;
-  text-shadow: none;
-  margin-bottom: 1rem;
+  font-size: 1.35rem;
+  color: #ffffff;
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.3);
+  margin: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  /* Removed glow animation */
 }
+
+/* Language Switch Styles */
+.language-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.language-switch span {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 30px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.25));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 34px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+input:checked + .slider {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.35));
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15), 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* Icon Styling with Simplified Effects */
+.icon-glow {
+  border-radius: 50%;
+  margin-bottom: 2rem;
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.3) 100%);
+  backdrop-filter: blur(15px);
+  padding: 1.2rem;
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.15),
+    0 0 0 8px rgba(255, 255, 255, 0.1),
+    inset 0 -4px 12px rgba(255, 255, 255, 0.3);
+  /* Slower, simpler animation */
+  animation: iconFloat 5s ease-in-out infinite;
+  position: relative;
+}
+
+/* Removed rotating pseudo-element for better performance */
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Main Title with Simplified Glow */
+h1 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(255, 255, 255, 0.4);
+  margin-bottom: 2rem;
+  /* Removed pulse animation */
+  position: relative;
+}
+
+/* Response Text Area with Premium Style */
 #responseText {
-  font-size: 1rem;
-  color: #222;
+  font-size: 1.05rem;
+  color: #1e293b;
   white-space: pre-wrap;
-  background: #f5f6fa;
-  border-radius: 0.8rem;
-  padding: 1rem 1.2rem;
-  margin-top: 1.2rem;
-  box-shadow: 0 1px 4px #e0e0e0;
-  border: 1px solid #e0e0e0;
-  transition: background 0.2s, box-shadow 0.2s;
-  animation: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.6) 100%);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: 1.8;
+  text-align: left;
+  min-height: 80px;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
+
 #responseText:empty {
-  background: none;
-  box-shadow: none;
-  border: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.3) 100%);
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-weight: 500;
 }
+
+#responseText:not(:empty) {
+  animation: contentFadeIn 0.4s ease-out;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Beautiful Buttons */
 button, .btn {
-  background: #4a69bd;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.3) 100%);
   color: #fff;
-  border: none;
-  border-radius: 1rem;
-  padding: 0.6rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  box-shadow: 0 1px 4px #e0e0e0;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  padding: 0.85rem 2.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
   margin: 0.5rem 0;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
+  cursor: pointer;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
   position: relative;
   overflow: hidden;
 }
+
+/* Removed ripple effect for better performance */
+
 button:hover, .btn:hover {
-  background: #3867d6;
-  box-shadow: 0 2px 8px #b2bec3;
-  transform: translateY(-1px) scale(1.03);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.4) 100%);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
 }
+
+button:active, .btn:active {
+  transform: translateY(0px);
+}
+
+/* Dialog with Premium Glassmorphism */
 dialog {
-  border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 2px 16px #e0e0e0;
-  border: 1px solid #e0e0e0;
-  color: #222;
-  font-size: 1rem;
-  padding: 1.5rem 1rem 1rem 1rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+  backdrop-filter: blur(30px);
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #334155;
+  font-size: 1.05rem;
+  padding: 2.5rem;
   z-index: 20;
-  transition: box-shadow 0.2s;
+  max-width: 450px;
 }
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+}
+
 dialog button {
-  margin-top: 1rem;
-  background: #4a69bd;
+  margin-top: 2rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
   color: #fff;
-  border-radius: 0.8rem;
-  font-size: 1rem;
-  font-weight: 600;
-  box-shadow: 0 1px 4px #e0e0e0;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   display: block;
+  padding: 0.85rem 2.5rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
+
 dialog button:hover {
-  background: #3867d6;
-  box-shadow: 0 2px 8px #b2bec3;
+  background: linear-gradient(135deg, rgba(118, 75, 162, 0.95) 0%, rgba(102, 126, 234, 0.95) 100%);
+  box-shadow: 0 8px 28px rgba(102, 126, 234, 0.5);
 }
+
+dialog p {
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Status Indicator with Simplified Glow */
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+  /* Slower animation */
+  animation: statusPulse 3s infinite;
+  margin-left: 0.5rem;
+}
+
+@keyframes statusPulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.2);
+  }
+}
+
+/* Back Arrow Styling */
+.tap {
+  transition: all 0.3s ease;
+  color: #ffffff !important;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.tap:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(-3px);
+}
+
+.tap i {
+  color: #ffffff !important;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* Responsive Design */
 @media (max-width: 700px) {
   .container {
-    max-width: 98vw;
-    padding: 1.2rem 0.5rem;
+    max-width: 95vw;
+    padding: 2rem 1.5rem;
+    margin: 90px auto 25px auto;
   }
+
   h1 {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
   }
+
   .icon-glow {
-    width: 60px;
-    height: 60px;
+    width: 85px;
+    height: 85px;
+  }
+
+  nav {
+    padding: 1rem 1rem !important;
+  }
+
+  nav h4 {
+    font-size: 1.15rem;
+  }
+
+  .language-switch span {
+    font-size: 0.75rem;
+  }
+
+  .switch {
+    width: 50px;
+    height: 26px;
+  }
+
+  .slider:before {
+    height: 18px;
+    width: 18px;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(24px);
+  }
+
+  .floating-element {
+    font-size: 2rem;
+    opacity: 0.1;
+  }
+
+  /* Hide half of floating elements on mobile */
+  .floating-element:nth-child(3),
+  .floating-element:nth-child(4) {
+    display: none;
+  }
+
+  #responseText {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+
+  button, .btn {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
   }
 }
     </style>
 </head>
 <body class="bg-dark">
-      <!-- All rights resieved from FLOWWAY PUBLICATIONS 
+      <!-- All rights resieved from FLOWWAY PUBLICATIONS
   THIS IS UNDER LICENSE TO KNOW ABOUT LICENCE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO/CONTACT
   IF YOU ARE MAKING COPY OF THE ORGINAL ONE YOU MIGHT RESIEVE COPYWRITE AND WE WILL MAKE A COMPLAINT ON COURT.
 
   -----TO GET LICENSE PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO-----------
-  
+
   ------------
 
   IF YOU WANT AN OPERATING SYSTEM PLEASE VISIT WWW.WEBCRAAFT.42WEB.IO /OR/ HASEEF-WS.NETLIFY.APP
@@ -176,27 +637,48 @@ dialog button:hover {
   This website already hosted on netlify inc
   -->
 
+     <!-- Reduced Animated Educational Background Elements (4 instead of 8) -->
+     <div class="glass-bg">
+         <div class="floating-element">📚</div>
+         <div class="floating-element">🎓</div>
+         <div class="floating-element">✏️</div>
+         <div class="floating-element">💡</div>
+     </div>
+     <div class="glass-reflection"></div>
+
      <!-- Preloader -->
      <div id="preloader">
     </div>
 
 
 <header>
-    <nav  class="fixed-top glassmorphism">
-        <h4 class="text-dark p-1 mx-4"><a id="tap" onclick="audio.play()" class="text-white tap" href="home.html"> <i class="fa-solid text-dark fa-arrow-left"></i></a> EB ASSISTANT</h4>
+    <nav class="fixed-top glassmorphism">
+        <div style="display: flex; align-items: center;">
+            <a id="tap" onclick="audio.play()" class="tap" href="home.html" style="text-decoration: none; margin-right: 1rem;">
+                <i class="fa-solid fa-arrow-left" style="color: #667eea; font-size: 1.2rem;"></i>
+            </a>
+            <h4>EB ASSISTANT <span class="status-indicator"></span></h4>
+        </div>
+        <div class="language-switch">
+            <span id="langLabel">EN</span>
+            <label class="switch">
+                <input type="checkbox" id="languageToggle">
+                <span class="slider"></span>
+            </label>
+            <span id="langLabelMal">ML</span>
+        </div>
     </nav>
 </header>
 <div class="p-3"></div>
 <section class="mt-5">
-  <!-- Copy from voice ai by ats -->
-  <dialog>
-    <button autofocus>Close</button>
-    <p>Ask a question like "Hey teahcer something..."</p>
+  <dialog id="instructionDialog">
+    <button autofocus id="closeDialogBtn">Close</button>
+    <p id="dialogText">Say "Hey Teacher" to start asking questions in English, or say "ടീച്ചർ" to ask in Malayalam.</p>
   </dialog>
 
 <div class="container">
-    <img src="images/voiceast.gif" alt="" class="icon-glow">
-    <h1>EDU BOT ASSISTANT</h1>
+    <img src="images/icon.png" alt="" class="icon-glow">
+    <h1 id="mainTitle">EDU BOT ASSISTANT</h1>
     <div id="response">
         <p id="responseText">Say "Hey Teacher" to start...</p>
     </div>
@@ -210,27 +692,115 @@ dialog button:hover {
     <script src="preload.js"></script>
     <script src="script.js"></script>
    <script src="bootstrap.js"></script>
+ 
+<!-- UI Size control (adjusts --ui-scale) -->
+<div id="sizeControl" title="Adjust UI size" style="position:fixed;right:12px;bottom:12px;z-index:2000;background:linear-gradient(135deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));backdrop-filter:blur(6px);padding:8px 10px;border-radius:10px;color:#fff;font-family:inherit;box-shadow:0 6px 18px rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);">
+  <label style="display:flex;align-items:center;gap:8px;font-size:0.9rem;">
+    <span style="font-weight:700;min-width:40px;">Size</span>
+    <input id="scaleRange" type="range" min="0.7" max="1.3" step="0.01" value="1" style="width:130px;">
+    <span id="scaleValue" style="min-width:36px;text-align:right;font-weight:700;">100%</span>
+  </label>
+</div>
 
-   <script>
-    const apiKey = 'AIzaSyCGPmYZNx_p5sdrkjLQx_DKyLx5M7Vl32Q'; // Replace with your actual API key
-const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+<script>
+  // Wire up size slider to update the --ui-scale CSS variable
+  (function(){
+    const range = document.getElementById('scaleRange');
+    const valueLabel = document.getElementById('scaleValue');
+    const setScale = (v) => {
+      const val = Number(v);
+      document.documentElement.style.setProperty('--ui-scale', val);
+      valueLabel.textContent = Math.round(val * 100) + '%';
+    };
+    range.addEventListener('input', (e) => setScale(e.target.value));
+    // initialize
+    setScale(range.value);
+  })();
+</script>
+<script>
+const apiKey = 'AIzaSyABrYuozFBNmV1cSNZM87fubU0HwIOEn14'; // Your actual API key
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
+const MODEL_NAME = 'gemini-2.5-flash'; // More stable model
+const endpoint = `${GEMINI_API_URL}/${MODEL_NAME}:generateContent?key=${apiKey}`;
 
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 recognition.continuous = true;
 recognition.interimResults = false;
-recognition.lang = 'en-US';
 
 let isRecognitionRunning = false;
+let currentLanguage = 'en-US';
+let isMalayalam = false;
+
+// Language Toggle
+const languageToggle = document.getElementById('languageToggle');
+const mainTitle = document.getElementById('mainTitle');
+const responseText = document.getElementById('responseText');
+const dialogText = document.getElementById('dialogText');
+
+languageToggle.addEventListener('change', function() {
+    isMalayalam = this.checked;
+    
+    if (isMalayalam) {
+        currentLanguage = 'ml-IN';
+        mainTitle.textContent = 'എഡ്യു ബോട്ട് അസിസ്റ്റന്റ്';
+        responseText.textContent = 'ആരംഭിക്കാൻ "ടീച്ചർ" എന്ന് പറയൂ...';
+        dialogText.textContent = '"ടീച്ചർ" എന്ന് പറഞ്ഞ് മലയാളത്തിൽ ചോദ്യങ്ങൾ ചോദിക്കൂ.';
+    } else {
+        currentLanguage = 'en-US';
+        mainTitle.textContent = 'EDU BOT ASSISTANT';
+        responseText.textContent = 'Say "Hey Teacher" to start...';
+        dialogText.textContent = 'Say "Hey Teacher" to start asking questions in English, or say "ടീച്ചർ" to ask in Malayalam.';
+    }
+    
+    if (isRecognitionRunning) {
+        recognition.stop();
+        isRecognitionRunning = false;
+        setTimeout(() => {
+            recognition.lang = currentLanguage;
+            startRecognition();
+        }, 500);
+    } else {
+        recognition.lang = currentLanguage;
+    }
+});
+
+recognition.lang = currentLanguage;
 
 const predefinedResponses = {
-    "what is your name": "My name is Edu Bot Ai.",
+    "what is your name": "My name is Edu Bot AI.",
     "who is your developer": "Haseef Muhammed is my developer. You can visit his website at haseef-ws.netlify.app.",
-    "who made you": "Made by by Haseef, Agney, Archith, and Niranjan.",
-    "where are you from": "I belong to p.m.s.a.p.t.h.s.s Kakkove . ATL Lab",
+    "who made you": "Made by Haseef, Agney, Archith, and Niranjan.",
+    "where are you from": "I belong to P.M.S.A.P.T.H.S.S Kakkove ATL Lab.",
+    "who are you": "I am Edu Bot AI, your intelligent teacher and assistant.",
+    "what is ai": "AI stands for Artificial Intelligence, the simulation of human intelligence in machines.",
+    "what is artificial intelligence": "Artificial Intelligence is the ability of a computer system to think, learn, and make decisions like humans.",
     "who is your designer": "Agney. A. is a multifaceted talent, excelling as a singer, designer, and technician. With a passion for music, Agney A delivers captivating performances that resonate with audiences. His design skills and technical expertise complement his artistic endeavors, creating a unique blend of creativity and precision.",
-    "tell me a welcome speech": "Chirak vijayakaramayi aaghōshikkaanaya ella vidyarthikalkum, adhyapakarum abhinandanangal. Ee kalamela ningalude kazhivukale puthiya uyaranngalil ethichirikkatte. Thank you, and enjoy the show! ",
-    "please inaugurate": "Welcome to Futuristic A.T.L EXPO 2K24-25 at P.M.S.A.P.T.H.S.S. Kakkove! Today, we enter a world where ideas turn into reality and creativity knows no limits. This expo is a celebration of young minds shaping the future through technology and innovation. Let’s ignite curiosity, embrace challenges, and create solutions that redefine tomorrow. The future starts here, with YOU! .Let the innovations begin!. njaan ninggaludee swantham A.I Teacher, EDU Bot A.I , ninggaludee kuudee expoyil njaanum undaakum. nanhhi."
+    "please welcome": "Namaskaram ellavarkkum. I am Edu Bot AI, your AI Teacher. It is a moment of great pride and joy to welcome Shreemathi K Binumol, the Honorable District Panchayath President of Palakkad, to our school's Science Fair and YIP 7.0 State Winners Exhibition. We are truly honored by your presence, Madam. Your support and encouragement always inspire students to dream bigger and reach higher. On behalf of all teachers and students, I extend a warm and respectful welcome to you, Madam. Thank you.",
+    "welcome": "Namaskaram ellavarkkum. I am Edu Bot AI, your AI Teacher. It is a moment of great pride and joy to welcome Shreemathi K Binumol, the Honorable District Panchayath President of Palakkad, to our school's Science Fair and YIP 7.0 State Winners Exhibition. We are truly honored by your presence, Madam. Your support and encouragement always inspire students to dream bigger and reach higher. On behalf of all teachers and students, I extend a warm and respectful welcome to you, Madam. Thank you.",
+    "who is the president of india": "The President of India is Droupadi Murmu.",
+    "what is the capital of india": "The capital of India is New Delhi.",
+    "who is the father of our nation": "Mahatma Gandhi is known as the Father of our Nation.",
+    "which is the largest planet in the solar system": "Jupiter is the largest planet in our solar system.",
+    "which is the national animal of india": "The national animal of India is the Bengal Tiger.",
+    "who wrote the national anthem of india": "The national anthem of India, 'Jana Gana Mana', was written by Rabindranath Tagore.",
+    "which is the longest river in the world": "The Nile River is the longest river in the world.",
+    "which planet is known as the red planet": "Mars is known as the Red Planet.",
+    "who invented the light bulb": "The light bulb was invented by Thomas Alva Edison.",
+    "which is the national bird of india": "The national bird of India is the Peacock.",
+    "who is the most beautiful person in the world": "The most beautiful person in the world? Definitely Niranjan — the 4th std kid-fearing game developer. Then there's Agney, our designer who thinks Canva is Photoshop. And of course APK, the new designer still making 3d printer to lamborgini car."
+};
+
+const malayalamResponses = {
+    "നിന്റെ പേര് എന്താണ്": "എന്റെ പേര് എഡ്യൂ ബോട്ട് എ.ഐ ആണ്.",
+    "നിന്നെ നിർമ്മിച്ചത് ആരാണ്": "എന്നെ നിർമ്മിച്ചത് ഹസീഫ്, അഗ്‌നി, ആർചിത്, നിരഞ്ജൻ എന്നിവർ ചേർന്നാണ്.",
+    "നിന്റെ ഡെവലപ്പർ ആരാണ്": "എന്റെ ഡെവലപ്പർ ഹസീഫ് മുഹമ്മദ് ആണ്. അദ്ദേഹത്തിന്റെ വെബ്സൈറ്റ് haseef-ws.netlify.app ആണ്.",
+    "നീ എവിടെയാണ് നിന്നത്": "ഞാൻ പി.എം.എസ്.എ.പി.ടി.എച്ച്.എസ്.എസ് കാക്കോവിലെ ATL ലാബിൽ നിന്നാണ്.",
+    "നീ ആരാണ്": "ഞാൻ എഡ്യൂ ബോട്ട് എ.ഐ ആണ് — നിങ്ങളുടെ ബുദ്ധിമാനായ അധ്യാപകനും സഹായിയുമാണ്.",
+    "എ.ഐ എന്താണ്": "എ.ഐ എന്ന് അർത്ഥമാക്കുന്നത് Artificial Intelligence — അതായത് യന്ത്രങ്ങളിൽ മനുഷ്യബുദ്ധിയുടെ അനുകരണം.",
+    "ആർട്ടിഫിഷ്യൽ ഇന്റലിജൻസ് എന്താണ്": "ആർട്ടിഫിഷ്യൽ ഇന്റലിജൻസ് എന്നത് കമ്പ്യൂട്ടറുകൾക്ക് മനുഷ്യരെപ്പോലെ ചിന്തിക്കാനും പഠിക്കാനും തീരുമാനമെടുക്കാനും കഴിയുന്ന കഴിവാണ്.",
+    "സ്വാഗതം പറയുക": "നമസ്കാരം എല്ലാവർക്കും, ഞാൻ എഡ്യൂ ബോട്ട് എ ഐ, നിങ്ങളുടെ എ ഐ ടീച്ചറാണ്. പാലക്കാട് ജില്ലാ പഞ്ചായത്ത് പ്രസിഡന്റായ ശ്രീമതി കെ. ബിനുമോൾ മാഡമിനെ, സയൻസ് ഫെയറിലേക്കും YIP 7.0 സ്റ്റേറ്റ് വിന്നേഴ്‌സ് എക്സിബിഷനിലേക്കും ആത്മാർത്ഥമായ അഭിമാനത്തോടും സന്തോഷത്തോടും കൂടിയാണ് സ്വാഗതം ചെയ്യുന്നത്. മാഡം, നിങ്ങളുടെ സാന്നിധ്യം ഞങ്ങൾക്ക് വലിയ ഗൗരവവും സന്തോഷവുമാണ്. നിങ്ങളുടെ പ്രോത്സാഹനവും പിന്തുണയും വിദ്യാർത്ഥികളെ കൂടുതൽ വലിയ സ്വപ്നങ്ങൾ കാണാനും ഉയരങ്ങൾ നേടാനും പ്രചോദനം നൽകുന്നു. എല്ലാ അധ്യാപകരുടെയും വിദ്യാർത്ഥികളുടെയും ഭാഗത്തുനിന്നും, ഞങ്ങൾ ഹൃദയപൂർവ്വം മാഡമിനെ സ്വാഗതം ചെയ്യുന്നു. നന്ദി.",
+    "സ്വാഗതം": "നമസ്കാരം എല്ലാവർക്കും, ഞാൻ എഡ്യൂ ബോട്ട് എ ഐ, നിങ്ങളുടെ എ ഐ ടീച്ചറാണ്. പാലക്കാട് ജില്ലാ പഞ്ചായത്ത് പ്രസിഡന്റായ ശ്രീമതി കെ. ബിനുമോൾ മാഡമിനെ, സയൻസ് ഫെയറിലേക്കും YIP 7.0 സ്റ്റേറ്റ് വിന്നേഴ്‌സ് എക്സിബിഷനിലേക്കും ആത്മാർത്ഥമായ അഭിമാനത്തോടും സന്തോഷത്തോടും കൂടിയാണ് സ്വാഗതം ചെയ്യുന്നത്. മാഡം, നിങ്ങളുടെ സാന്നിധ്യം ഞങ്ങൾക്ക് വലിയ ഗൗരവവും സന്തോഷവുമാണ്. നിങ്ങളുടെ പ്രോത്സാഹനവും പിന്തുണയും വിദ്യാർത്ഥികളെ കൂടുതൽ വലിയ സ്വപ്നങ്ങൾ കാണാനും ഉയരങ്ങൾ നേടാനും പ്രചോദനം നൽകുന്നു. എല്ലാ അധ്യാപകരുടെയും വിദ്യാർത്ഥികളുടെയും ഭാഗത്തുനിന്നും, ഞങ്ങൾ ഹൃദയപൂർവ്വം മാഡമിനെ സ്വാഗതം ചെയ്യുന്നു. നന്ദി."
 };
 
 recognition.onresult = (event) => {
@@ -239,19 +809,37 @@ recognition.onresult = (event) => {
 
     const normalizedTranscript = transcript.toLowerCase();
 
-    if (normalizedTranscript.includes('hey teacher')) {
-        const question = normalizedTranscript.replace(/hey teacher/i, '').trim();
-        if (question) {
-            if (predefinedResponses[question]) {
-                const responseText = predefinedResponses[question];
-                document.getElementById('responseText').textContent = responseText;
-                speakText(responseText);
+    if (isMalayalam) {
+        if (normalizedTranscript.includes('ടീച്ചർ') || normalizedTranscript.includes('teacher')) {
+            const question = normalizedTranscript.replace(/ടീച്ചർ|teacher/gi, '').trim();
+            if (question) {
+                if (malayalamResponses[question]) {
+                    const responseText = malayalamResponses[question];
+                    document.getElementById('responseText').textContent = responseText;
+                    speakText(responseText, 'ml-IN');
+                } else {
+                    document.getElementById('responseText').textContent = `നിങ്ങൾ ചോദിച്ചു: "${question}"`;
+                    fetchContent(question, true);
+                }
             } else {
-                document.getElementById('responseText').textContent = `You asked: "${question}"`;
-                fetchContent(question);
+                document.getElementById('responseText').textContent = '"ടീച്ചർ" എന്ന് പറഞ്ഞതിന് ശേഷം ഒരു ചോദ്യം ചോദിക്കൂ.';
             }
-        } else {
-            document.getElementById('responseText').textContent = 'Please ask a question after saying "Hey Teacher".';
+        }
+    } else {
+        if (normalizedTranscript.includes('hey teacher')) {
+            const question = normalizedTranscript.replace(/hey teacher/i, '').trim();
+            if (question) {
+                if (predefinedResponses[question]) {
+                    const responseText = predefinedResponses[question];
+                    document.getElementById('responseText').textContent = responseText;
+                    speakText(responseText, 'en-US');
+                } else {
+                    document.getElementById('responseText').textContent = `You asked: "${question}"`;
+                    fetchContent(question, false);
+                }
+            } else {
+                document.getElementById('responseText').textContent = 'Please ask a question after saying "Hey Teacher".';
+            }
         }
     }
 };
@@ -271,13 +859,34 @@ function startRecognition() {
 
 startRecognition();
 
-function fetchContent(text) {
+// ⭐ THIS IS THE KEY CHANGE - Added systemInstruction
+function fetchContent(text, isMalayalamQuery) {
+    const languageInstruction = isMalayalamQuery 
+        ? 'Please respond in Malayalam (മലയാളം).' 
+        : 'Please respond in English.';
+    
     fetch(endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+            systemInstruction: {
+                parts: [
+                    {
+                        text: `You are Edu Bot AI, a friendly and knowledgeable AI teacher from P.M.S.A.P.T.H.S.S Kakkove ATL Lab. 
+                        
+Your role:
+- You ONLY answer educational questions related to subjects like Math, Science, History, Geography, English, Languages, Technology, and general knowledge suitable for students.
+- You explain concepts clearly and in a way that students can understand easily.
+- You encourage curiosity and learning.
+- Keep responses concise and student-friendly (maximum 13 lines).
+- If asked non-educational questions (entertainment, games, personal opinions unrelated to learning), politely say: "I'm sorry, but as an educational assistant, I can only help with questions related to learning and academics. Please ask me something about your studies!"
+
+${languageInstruction}`
+                    }
+                ]
+            },
             contents: [
                 {
                     parts: [
@@ -306,96 +915,113 @@ function fetchContent(text) {
         if (responseText) {
             const cleanedResponse = stripMarkdown(responseText);
             document.getElementById('responseText').textContent = cleanedResponse;
-            speakText(cleanedResponse);
+            speakText(cleanedResponse, isMalayalamQuery ? 'ml-IN' : 'en-US');
         } else {
-            document.getElementById('responseText').textContent = 'No response from API.';
+            const noResponseMsg = isMalayalamQuery ? 'API യിൽ നിന്ന് പ്രതികരണമില്ല.' : 'No response from API.';
+            document.getElementById('responseText').textContent = noResponseMsg;
             startRecognition();
         }
     })
     .catch(error => {
         console.error('Error details:', error);
-        document.getElementById('responseText').textContent = `Sorry, there was an error: ${error.message}`;
+        const errorMsg = isMalayalamQuery 
+            ? `ക്ഷമിക്കണം, ഒരു പിശക് സംഭവിച്ചു: ${error.message}`
+            : `Sorry, there was an error: ${error.message}`;
+        document.getElementById('responseText').textContent = errorMsg;
         startRecognition();
     });
 }
 
-// Function to strip markdown formatting from text
 function stripMarkdown(text) {
     return text
-        .replace(/\*\*([^\*]+)\*\*/g, '$1') // Remove bold formatting
-        .replace(/\*([^\*]+)\*/g, '$1') // Remove italic formatting
-        .replace(/(^|\s)#[^\s]+/g, '') // Remove headers
-        .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
-        .replace(/\[.*?\]\(.*?\)/g, '') // Remove links
-        .replace(/`{1,3}.*?`{1,3}/g, '') // Remove inline code and code blocks
+        .replace(/\*\*([^\*]+)\*\*/g, '$1')
+        .replace(/\*([^\*]+)\*/g, '$1')
+        .replace(/(^|\s)#[^\s]+/g, '')
+        .replace(/!\[.*?\]\(.*?\)/g, '')
+        .replace(/\[.*?\]\(.*?\)/g, '')
+        .replace(/`{1,3}.*?`{1,3}/g, '')
         .trim();
 }
 
-// Function to read the text aloud with a female voice and limit to 20 seconds
-function speakText(text) {
+function speakText(text, lang) {
     const utterance = new SpeechSynthesisUtterance(text);
-    const voices = window.speechSynthesis.getVoices();
-    const femaleVoice = voices.find(voice => voice.name.includes('Female')) || voices[0];
-
-    if (femaleVoice) {
-        utterance.voice = femaleVoice;
+    utterance.lang = lang;
+    
+    const setVoice = () => {
+        const voices = window.speechSynthesis.getVoices();
+        
+        let selectedVoice;
+        if (lang === 'ml-IN') {
+            selectedVoice = voices.find(voice => 
+                voice.lang === 'ml-IN' && voice.name.toLowerCase().includes('female')
+            ) || voices.find(voice => voice.lang === 'ml-IN')
+              || voices.find(voice => voice.lang.startsWith('ml'));
+        } else {
+            selectedVoice = voices.find(voice => 
+                voice.lang === 'en-US' && voice.name.toLowerCase().includes('female')
+            ) || voices.find(voice => voice.lang === 'en-US');
+        }
+        
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+        }
+        
+        console.log('Selected voice:', selectedVoice);
+    };
+    
+    setVoice();
+    
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = setVoice;
     }
 
-    const readTimeLimit = 60000; // 60 seconds
+    const readTimeLimit = 60000;
     let speakingTimeout;
 
     utterance.onend = () => {
         console.log('Speech ended.');
-        document.getElementById('responseText').textContent += '\nYou can read from the screen.';
+        const continueMsg = lang === 'ml-IN' 
+            ? '\nനിങ്ങൾക്ക് സ്ക്രീനിൽ നിന്ന് വായിക്കാം.'
+            : '\nYou can read from the screen.';
+        document.getElementById('responseText').textContent += continueMsg;
         clearTimeout(speakingTimeout);
-        setTimeout(startRecognition, 1000); // Delay before restarting recognition
+        setTimeout(startRecognition, 1000);
     };
 
     utterance.onerror = (event) => {
         console.error('SpeechSynthesisUtterance.onerror', event);
         clearTimeout(speakingTimeout);
-        setTimeout(startRecognition, 1000); // Delay before restarting recognition
+        setTimeout(startRecognition, 1000);
     };
 
-    // Stop recognition while speaking
     recognition.stop();
     isRecognitionRunning = false;
     window.speechSynthesis.speak(utterance);
 
     speakingTimeout = setTimeout(() => {
         window.speechSynthesis.cancel();
-        document.getElementById('responseText').textContent += '\nYou can read from the screen.';
-        setTimeout(startRecognition, 1000); // Delay before restarting recognition
-    }, readTimeLimit); // Stop speaking after 20 seconds
+        const continueMsg = lang === 'ml-IN' 
+            ? '\nനിങ്ങൾക്ക് സ്ക്രീനിൽ നിന്ന് വായിക്കാം.'
+            : '\nYou can read from the screen.';
+        document.getElementById('responseText').textContent += continueMsg;
+        setTimeout(startRecognition, 1000);
+    }, readTimeLimit);
 }
 
-// Ensure voices are loaded and set up
 window.speechSynthesis.onvoiceschanged = () => {
     const voices = window.speechSynthesis.getVoices();
-    console.log('Voices:', voices);
+    console.log('Available voices:', voices);
 };
 
-
 // Dialog
+const dialog = document.getElementById('instructionDialog');
+const closeButton = document.getElementById('closeDialogBtn');
 
-const dialog = document.querySelector("dialog");
-const showButton = document.querySelector("dialog + button");
-const closeButton = document.querySelector("dialog button");
+dialog.showModal();
 
-// "Show the dialog" button opens the dialog modally
- dialog.showModal();
-// showButton.addEventListener("click", () => {
-//   dialog.showModal();
-// });
-
-// "Close" button closes the dialog
 closeButton.addEventListener("click", () => {
-  dialog.close();
+    dialog.close();
 });
-
-
-
-
-   </script>
+</script>
 </body>
 </html>
