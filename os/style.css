@@ -8,12 +8,37 @@
 */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courgette&family=Delicious+Handrawn&family=Noto+Kufi+Arabic:wght@100..900&family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rubik+Scribble&family=Rubik:ital,wght@0,300..900;1,300..900&family=Shadows+Into+Light&family=Workbench&display=swap');
 body{
-    /* background-image: url("images/bg\ for\ fm.png"); */
-    background-image: url("images/bg\ group\ image.png");
+    background-image: url("images/bg\ for\ fm.png");
+    /* background-image: url("images/bg\ group\ image.png"); */
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Video Background */
+#video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Dark Overlay for Video */
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Dark tint - adjust opacity as needed */
+    z-index: -1;
 }
 .icon{
     width: 10em;
@@ -133,7 +158,7 @@ body {
 }
 
 /* Ensure main content is above the glassmorphism background */
-body > *:not(.glassmorphism-screen) {
+/* body > *:not(.glassmorphism-screen) {
     position: relative;
     z-index: 1;
-}
+} */
